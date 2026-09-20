@@ -1,0 +1,3860 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>InterSurv Analytics</title>
+
+    <style>
+
+        /* =========================================
+           CONDITION BY POINT TYPE
+           ========================================= */
+
+        .point-type-chart-container {
+            position: relative;
+            width: 100%;
+            height: 420px;
+        }
+
+
+        /* =========================================
+           MONUMENT HISTORY ANALYSIS
+           ========================================= */
+
+        .history-summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .history-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 18px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border-left: 5px solid #1769d1;
+        }
+
+        .history-icon {
+            font-size: 25px;
+        }
+
+        .history-label {
+            color: #64748b;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .history-number {
+            margin-top: 5px;
+            color: #163d73;
+            font-size: 27px;
+            font-weight: bold;
+        }
+
+
+        /* =========================================
+           GENERAL
+           ========================================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f3f7fc;
+            color: #1e293b;
+        }
+
+
+        /* =========================================
+           HEADER
+           ========================================= */
+
+        .header {
+            height: 75px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.08);
+        }
+
+        .header h1 {
+            margin: 0;
+            color: #163d73;
+            font-size: 25px;
+        }
+
+        .back-button {
+            border: none;
+            background: #1769d1;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background: #1256ad;
+        }
+
+/* =========================================
+   HEADER ACTIONS
+   ========================================= */
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/* =========================================
+   EXPORT BUTTON
+   ========================================= */
+
+.export-button {
+
+    border: none;
+
+    background: #1769d1;
+
+    color: white;
+
+    padding: 11px 18px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+
+}
+
+
+.export-button:hover {
+
+    background: #1256ad;
+
+    transform: translateY(-1px);
+
+}
+
+
+.export-button:active {
+
+    transform: translateY(0);
+
+}
+
+
+.export-button:disabled {
+
+    background: #94a3b8;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+}
+
+
+@media (max-width: 700px) {
+
+    .header {
+
+        height: auto;
+
+        min-height: 75px;
+
+        padding: 12px 15px;
+
+        gap: 10px;
+
+    }
+
+    .header-actions {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+    .export-button,
+    .back-button {
+
+        font-size: 11px;
+
+        padding: 9px 12px;
+
+    }
+
+}
+
+
+        /* =========================================
+           MAIN
+           ========================================= */
+
+        .main {
+            max-width: 1450px;
+            margin: auto;
+            padding: 28px;
+        }
+
+        .page-intro {
+            margin-bottom: 25px;
+        }
+
+        .page-intro h2 {
+            margin: 0 0 7px;
+            color: #163d73;
+            font-size: 25px;
+        }
+
+        .page-intro p {
+            margin: 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+
+        /* =========================================
+           SUMMARY CARDS
+           ========================================= */
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.07);
+        }
+
+        .card-title {
+            color: #64748b;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .card-number {
+            margin-top: 8px;
+            color: #163d73;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+
+        /* =========================================
+           CHART SECTION
+           ========================================= */
+
+        .chart-section {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.07);
+            margin-bottom: 25px;
+        }
+
+        .chart-section h2 {
+            margin: 0 0 6px;
+            color: #163d73;
+        }
+
+        .chart-section p {
+            margin: 0 0 20px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 420px;
+        }
+
+
+        /* =========================================
+           MAINTENANCE PRIORITY
+           ========================================= */
+
+        .priority-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 18px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            background: #f8fafc;
+        }
+
+        .priority-item strong {
+            color: #163d73;
+            font-size: 14px;
+        }
+
+        .priority-item p {
+            margin: 5px 0 0 !important;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .priority-item span {
+            min-width: 45px;
+            text-align: center;
+            padding: 8px 12px;
+            border-radius: 20px;
+            background: white;
+            color: #163d73;
+            font-weight: bold;
+        }
+
+        .priority-high {
+            border-left: 5px solid #dc2626;
+        }
+
+        .priority-medium {
+            border-left: 5px solid #eab308;
+        }
+
+        .priority-inspection {
+            border-left: 5px solid #94a3b8;
+        }
+
+        .priority-complete {
+            border-left: 5px solid #2563eb;
+        }
+
+        .priority-good {
+            border-left: 5px solid #16a34a;
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+           ========================================= */
+
+        @media (max-width: 1100px) {
+
+            .summary {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .history-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .header {
+                padding: 0 15px;
+            }
+
+            .point-type-chart-container {
+                height: 350px;
+            }
+
+            .header h1 {
+                font-size: 18px;
+            }
+
+            .main {
+                padding: 15px;
+            }
+
+            .summary {
+                grid-template-columns: 1fr 1fr;
+            }
+
+        }
+
+        @media (max-width: 450px) {
+
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .history-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .point-type-chart-container {
+                height: 320px;
+            }
+
+        }
+
+
+        /* =========================================
+           CLICKABLE HISTORY CARDS
+           ========================================= */
+
+        .history-clickable {
+            cursor: pointer;
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                border-color 0.2s ease;
+            position: relative;
+        }
+
+        .history-clickable:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 22px rgba(23, 105, 209, 0.16);
+            border-color: #1769d1;
+        }
+
+        .history-clickable:active {
+            transform: translateY(-1px);
+        }
+
+        .history-view-text {
+            margin-top: 7px;
+            font-size: 11px;
+            color: #1769d1;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .history-clickable:hover .history-view-text {
+            opacity: 1;
+        }
+
+
+        /* =========================================
+           HISTORY DETAIL TABLE
+           ========================================= */
+
+        .history-details-section {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.07);
+            margin-bottom: 25px;
+            display: none;
+        }
+
+        .history-details-section.active {
+            display: block;
+        }
+
+        .history-details-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .history-details-title {
+            margin: 0;
+            color: #163d73;
+            font-size: 22px;
+        }
+
+        .history-details-subtitle {
+            margin: 5px 0 0;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .history-close-button {
+            border: none;
+            background: #e8f1ff;
+            color: #1769d1;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .history-close-button:hover {
+            background: #d7e7ff;
+        }
+
+        .history-table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid #dbe5f0;
+            border-radius: 12px;
+        }
+
+        .history-analysis-table {
+            width: 100%;
+            min-width: 700px;
+            border-collapse: collapse;
+        }
+
+        .history-analysis-table th {
+            background: #eef5ff;
+            color: #163d73;
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 12px;
+            white-space: nowrap;
+            border-bottom: 1px solid #dbe5f0;
+        }
+
+        .history-analysis-table td {
+            padding: 14px 16px;
+            color: #334155;
+            font-size: 13px;
+            border-bottom: 1px solid #e2e8f0;
+            white-space: nowrap;
+        }
+
+        .history-analysis-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .history-analysis-table tbody tr:hover {
+            background: #f8fbff;
+        }
+
+        .history-date {
+            font-weight: 600;
+            color: #163d73;
+        }
+
+        .history-empty {
+            text-align: center;
+            padding: 35px;
+            color: #64748b;
+        }
+
+        .history-status-badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .history-status-damage {
+            background: #fff3e8;
+            color: #c2410c;
+        }
+
+        .history-status-replaced {
+            background: #e8e8ff;
+            color: #4338ca;
+        }
+
+        .history-status-critical {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        @media (max-width: 700px) {
+
+            .history-details-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .history-close-button {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <h1>
+        InterSurv Analytics
+    </h1>
+
+    <div class="header-actions">
+
+        <button
+                type="button"
+                id="exportButton"
+                class="export-button"
+        >
+            ⬇ EXPORT DATA
+        </button>
+
+        <button
+                class="back-button"
+                id="backButton"
+        >
+            ← BACK TO DASHBOARD
+        </button>
+
+    </div>
+
+</header>
+<main class="main">
+
+
+    <div class="page-intro">
+
+        <h2>
+            Monument Condition Analysis
+        </h2>
+
+        <p>
+            Overview of current monument conditions
+            recorded in InterSurv.
+        </p>
+
+    </div>
+
+
+    <!-- =========================================
+         SUMMARY CARDS
+         ========================================= -->
+
+    <section class="summary">
+
+        <div class="card">
+            <div class="card-title">TOTAL</div>
+
+            <div
+                    class="card-number"
+                    id="totalPoints"
+            >
+                0
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-title">🟢 GOOD</div>
+
+            <div
+                    class="card-number"
+                    id="goodPoints"
+            >
+                0
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-title">🟡 MINOR DAMAGE</div>
+
+            <div
+                    class="card-number"
+                    id="minorPoints"
+            >
+                0
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-title">🟠 DAMAGED</div>
+
+            <div
+                    class="card-number"
+                    id="damagedPoints"
+            >
+                0
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-title">🔴 CRITICAL</div>
+
+            <div
+                    class="card-number"
+                    id="criticalPoints"
+            >
+                0
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-title">🔵 REPLACED</div>
+
+            <div
+                    class="card-number"
+                    id="replacedPoints"
+            >
+                0
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         CONDITION CHART
+         ========================================= -->
+
+    <section class="chart-section">
+
+        <h2>
+            Monument Condition Distribution
+        </h2>
+
+        <p>
+            Current condition of all control points.
+        </p>
+
+        <div class="chart-container">
+            <canvas id="conditionChart"></canvas>
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         MAINTENANCE PRIORITY
+         ========================================= -->
+
+    <section class="chart-section">
+
+        <h2>
+            Maintenance Priority
+        </h2>
+
+        <p>
+            Maintenance and inspection priority based on
+            current monument condition.
+        </p>
+
+        <div id="maintenancePriority">
+
+            <div class="priority-item priority-high">
+
+                <div>
+                    <strong>
+                        🔴 Critical / Replacement Required
+                    </strong>
+
+                    <p>
+                        Immediate attention required.
+                    </p>
+                </div>
+
+                <span id="criticalPriority">0</span>
+
+            </div>
+
+
+            <div class="priority-item priority-high">
+
+                <div>
+                    <strong>🟠 Damaged</strong>
+
+                    <p>
+                        Maintenance should be prioritised.
+                    </p>
+                </div>
+
+                <span id="damagedPriority">0</span>
+
+            </div>
+
+
+            <div class="priority-item priority-medium">
+
+                <div>
+                    <strong>🟡 Minor Damage</strong>
+
+                    <p>
+                        Monitor condition and plan maintenance.
+                    </p>
+                </div>
+
+                <span id="minorPriority">0</span>
+
+            </div>
+
+
+            <div class="priority-item priority-inspection">
+
+                <div>
+                    <strong>⚪ Not Inspected</strong>
+
+                    <p>
+                        Inspection is required.
+                    </p>
+                </div>
+
+                <span id="inspectionPriority">0</span>
+
+            </div>
+
+
+            <div class="priority-item priority-complete">
+
+                <div>
+                    <strong>🔵 Replaced</strong>
+
+                    <p>
+                        Replacement completed.
+                    </p>
+                </div>
+
+                <span id="replacedPriority">0</span>
+
+            </div>
+
+
+            <div class="priority-item priority-good">
+
+                <div>
+                    <strong>🟢 Good</strong>
+
+                    <p>
+                        No immediate maintenance required.
+                    </p>
+                </div>
+
+                <span id="goodPriority">0</span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         MONUMENT HISTORY ANALYSIS
+         ========================================= -->
+
+    <section class="chart-section">
+
+        <h2>
+            Monument History Analysis
+        </h2>
+
+        <p>
+            Analysis of monument condition changes and
+            maintenance records.
+        </p>
+
+
+        <div class="history-summary">
+
+
+            <div
+                    class="history-card history-clickable"
+                    id="totalHistoryCard"
+                    title="View all monument history records"
+            >
+
+                <span class="history-icon">🔄</span>
+
+                <div>
+
+                    <div class="history-label">
+                        TOTAL STATUS CHANGES
+                    </div>
+
+                    <div
+                            class="history-number"
+                            id="totalHistory"
+                    >
+                        0
+                    </div>
+
+                    <div class="history-view-text">
+                        Click to view records →
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                    class="history-card history-clickable"
+                    id="damageHistoryCard"
+                    title="View damage records"
+            >
+
+                <span class="history-icon">⚠️</span>
+
+                <div>
+
+                    <div class="history-label">
+                        DAMAGE RECORDS
+                    </div>
+
+                    <div
+                            class="history-number"
+                            id="damageHistory"
+                    >
+                        0
+                    </div>
+
+                    <div class="history-view-text">
+                        Click to view records →
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                    class="history-card history-clickable"
+                    id="replacementHistoryCard"
+                    title="View replacement records"
+            >
+
+                <span class="history-icon">🔧</span>
+
+                <div>
+
+                    <div class="history-label">
+                        REPLACEMENTS
+                    </div>
+
+                    <div
+                            class="history-number"
+                            id="replacementHistory"
+                    >
+                        0
+                    </div>
+
+                    <div class="history-view-text">
+                        Click to view records →
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                    class="history-card history-clickable"
+                    id="pointsWithHistoryCard"
+                    title="View points with history"
+            >
+
+                <span class="history-icon">📋</span>
+
+                <div>
+
+                    <div class="history-label">
+                        POINTS WITH HISTORY
+                    </div>
+
+                    <div
+                            class="history-number"
+                            id="pointsWithHistory"
+                    >
+                        0
+                    </div>
+
+                    <div class="history-view-text">
+                        Click to view records →
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         HISTORY DETAIL TABLE
+         ========================================= -->
+
+    <section
+            class="history-details-section"
+            id="historyDetailsSection"
+    >
+
+        <div class="history-details-header">
+
+            <div>
+
+                <h2
+                        class="history-details-title"
+                        id="historyDetailsTitle"
+                >
+                    History Records
+                </h2>
+
+                <p
+                        class="history-details-subtitle"
+                        id="historyDetailsSubtitle"
+                >
+                    Monument history records.
+                </p>
+
+            </div>
+
+            <button
+                    type="button"
+                    class="history-close-button"
+                    id="closeHistoryDetails"
+            >
+                ✕ CLOSE
+            </button>
+
+        </div>
+
+        <div id="historyDetailsContent">
+
+            <div class="history-empty">
+                Select a history category to view records.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         CONDITION BY POINT TYPE
+         ========================================= -->
+
+    <section class="chart-section">
+
+        <h2>
+            Condition by Point Type
+        </h2>
+
+        <p>
+            Distribution of monument conditions according
+            to control point type.
+        </p>
+
+        <div class="point-type-chart-container">
+            <canvas id="pointTypeChart"></canvas>
+        </div>
+
+    </section>
+
+</main>
+
+
+<script type="module">
+
+    import {
+    db,
+    auth
+} from "./js/firebase-config.js";
+
+import {
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+import {
+    collection,
+    getDocs
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+    /* =========================================
+   EXPORT DATA
+========================================= */
+
+let analyticsControlPoints = [];
+
+
+document.getElementById(
+    "exportButton"
+).addEventListener(
+    "click",
+    exportAnalyticsData
+);
+
+
+/* =========================================
+   EXPORT ANALYTICS DATA TO EXCEL
+========================================= */
+
+async function exportAnalyticsData() {
+
+    const exportButton =
+        document.getElementById(
+            "exportButton"
+        );
+
+    try {
+
+        exportButton.disabled = true;
+
+        exportButton.textContent =
+            "⏳ EXPORTING...";
+
+
+        /*
+         * Get all control points
+         */
+
+        const controlPointsSnapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "control_points"
+                )
+            );
+
+
+        const controlPoints =
+            controlPointsSnapshot.docs.map(
+                function (document) {
+
+                    return {
+
+                        id:
+                            document.id,
+
+                        ...document.data()
+
+                    };
+
+                }
+            );
+
+
+        /*
+         * =====================================
+         * SHEET 1
+         * CONTROL POINTS
+         * =====================================
+         */
+
+        const controlPointRows =
+            controlPoints.map(
+                function (point) {
+
+                    return {
+
+                        "Point ID":
+                            point.pointCode || "",
+
+                        "Point Type":
+                            normalizePointType(
+                                point.pointType
+                            ),
+
+                        "Status":
+                            point.monumentStatus ||
+                            "Not Inspected",
+
+                        "Observation Date":
+                            formatExportDate(
+                                point.observationDate
+                            ),
+
+                        "Northing":
+                            point.northing ?? "",
+
+                        "Easting":
+                            point.easting ?? "",
+
+                        "Elevation":
+                            point.elevation ?? "",
+
+                        "Latitude":
+                            point.latitude ?? "",
+
+                        "Longitude":
+                            point.longitude ?? "",
+
+                        "Description":
+                            point.description || ""
+
+                    };
+
+                }
+            );
+
+
+        /*
+         * =====================================
+         * SHEET 2
+         * STATUS HISTORY
+         * =====================================
+         */
+
+        const historyRows = [];
+
+
+        for (
+            const point of controlPoints
+        ) {
+
+            const historySnapshot =
+                await getDocs(
+                    collection(
+                        db,
+                        "control_points",
+                        point.id,
+                        "monument_history"
+                    )
+                );
+
+
+            historySnapshot.forEach(
+                function (historyDocument) {
+
+                    const history =
+                        historyDocument.data();
+
+
+                    historyRows.push({
+
+                        "Point ID":
+                            point.pointCode || "",
+
+                        "Point Type":
+                            normalizePointType(
+                                point.pointType
+                            ),
+
+                        "Status":
+                            history.status ||
+                            "",
+
+                        "Observation Date":
+                            formatExportDate(
+                                history.observationDate
+                            ),
+
+                        "Remarks":
+                            history.remarks ||
+                            "",
+
+                        "Updated":
+                            formatExportDateTime(
+                                history.date
+                            )
+
+                    });
+
+                }
+            );
+
+        }
+
+
+        /*
+         * Sort history by Point ID
+         * and Observation Date
+         */
+
+        historyRows.sort(
+            function (a, b) {
+
+                const pointCompare =
+                    String(
+                        a["Point ID"]
+                    ).localeCompare(
+                        String(
+                            b["Point ID"]
+                        )
+                    );
+
+
+                if (
+                    pointCompare !== 0
+                ) {
+
+                    return pointCompare;
+
+                }
+
+
+                return (
+                    parseExportDate(
+                        a["Observation Date"]
+                    ) -
+
+                    parseExportDate(
+                        b["Observation Date"]
+                    )
+                );
+
+            }
+        );
+
+
+        /*
+         * =====================================
+         * SHEET 3
+         * SUMMARY
+         * =====================================
+         */
+
+        const summaryRows =
+            createExportSummary(
+                controlPoints,
+                historyRows
+            );
+
+
+        /*
+         * =====================================
+         * CREATE EXCEL WORKBOOK
+         * =====================================
+         */
+
+        const workbook =
+            XLSX.utils.book_new();
+
+
+        /*
+         * Control Points sheet
+         */
+
+        const controlPointSheet =
+            XLSX.utils.json_to_sheet(
+                controlPointRows
+            );
+
+
+        /*
+         * History sheet
+         */
+
+        const historySheet =
+            XLSX.utils.json_to_sheet(
+                historyRows
+            );
+
+
+        /*
+         * Summary sheet
+         */
+
+        const summarySheet =
+            XLSX.utils.json_to_sheet(
+                summaryRows
+            );
+
+
+        /*
+         * Add sheets
+         */
+
+        XLSX.utils.book_append_sheet(
+            workbook,
+            summarySheet,
+            "Summary"
+        );
+
+
+        XLSX.utils.book_append_sheet(
+            workbook,
+            controlPointSheet,
+            "Control Points"
+        );
+
+
+        XLSX.utils.book_append_sheet(
+            workbook,
+            historySheet,
+            "Status History"
+        );
+
+
+        /*
+         * Set column widths
+         */
+
+        controlPointSheet["!cols"] = [
+
+            { wch: 15 },
+            { wch: 15 },
+            { wch: 32 },
+            { wch: 18 },
+            { wch: 18 },
+            { wch: 18 },
+            { wch: 15 },
+            { wch: 15 },
+            { wch: 15 },
+            { wch: 40 }
+
+        ];
+
+
+        historySheet["!cols"] = [
+
+            { wch: 15 },
+            { wch: 15 },
+            { wch: 35 },
+            { wch: 18 },
+            { wch: 55 },
+            { wch: 22 }
+
+        ];
+
+
+        summarySheet["!cols"] = [
+
+            { wch: 35 },
+            { wch: 20 }
+
+        ];
+
+
+        /*
+         * =====================================
+         * DOWNLOAD
+         * =====================================
+         */
+
+        const today =
+            new Date();
+
+
+        const dateString =
+            today
+                .toISOString()
+                .split("T")[0];
+
+
+        XLSX.writeFile(
+            workbook,
+            "InterSurv_Analytics_" +
+            dateString +
+            ".xlsx"
+        );
+
+
+        alert(
+            "Analytics data exported successfully."
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Export error:",
+            error
+        );
+
+
+        alert(
+            "Failed to export analytics data.\n\n" +
+            error.message
+        );
+
+
+    } finally {
+
+        exportButton.disabled =
+            false;
+
+        exportButton.textContent =
+            "⬇ EXPORT DATA";
+
+    }
+
+}
+
+
+/* =========================================
+   EXPORT SUMMARY
+========================================= */
+
+function createExportSummary(
+    controlPoints,
+    historyRows
+) {
+
+    let good = 0;
+    let minor = 0;
+    let damaged = 0;
+    let critical = 0;
+    let replaced = 0;
+    let notInspected = 0;
+
+
+    controlPoints.forEach(
+        function (point) {
+
+            const status =
+                point.monumentStatus ||
+                "Not Inspected";
+
+
+            if (
+                status === "Good"
+            ) {
+
+                good++;
+
+            }
+            else if (
+                status === "Minor Damage"
+            ) {
+
+                minor++;
+
+            }
+            else if (
+                status === "Damaged"
+            ) {
+
+                damaged++;
+
+            }
+            else if (
+                status ===
+                "Critical / Replacement Required"
+            ) {
+
+                critical++;
+
+            }
+            else if (
+                status === "Replaced"
+            ) {
+
+                replaced++;
+
+            }
+            else {
+
+                notInspected++;
+
+            }
+
+        }
+    );
+
+
+    const pointTypeCounts = {
+
+        TBM: 0,
+        GCP: 0,
+        GPS: 0,
+        CRM: 0,
+        HSR: 0,
+        BKL: 0,
+        BK: 0
+
+    };
+
+
+    controlPoints.forEach(
+        function (point) {
+
+            const type =
+                normalizePointType(
+                    point.pointType
+                );
+
+
+            if (
+                pointTypeCounts[type]
+                !== undefined
+            ) {
+
+                pointTypeCounts[type]++;
+
+            }
+
+        }
+    );
+
+
+    return [
+
+        {
+            "Category":
+                "TOTAL CONTROL POINTS",
+
+            "Value":
+                controlPoints.length
+        },
+
+        {
+            "Category":
+                "TOTAL STATUS CHANGES",
+
+            "Value":
+                historyRows.length
+        },
+
+        {
+            "Category":
+                "GOOD",
+
+            "Value":
+                good
+        },
+
+        {
+            "Category":
+                "MINOR DAMAGE",
+
+            "Value":
+                minor
+        },
+
+        {
+            "Category":
+                "DAMAGED",
+
+            "Value":
+                damaged
+        },
+
+        {
+            "Category":
+                "CRITICAL / REPLACEMENT REQUIRED",
+
+            "Value":
+                critical
+        },
+
+        {
+            "Category":
+                "REPLACED",
+
+            "Value":
+                replaced
+        },
+
+        {
+            "Category":
+                "NOT INSPECTED",
+
+            "Value":
+                notInspected
+        },
+
+        {
+            "Category":
+                "TBM",
+
+            "Value":
+                pointTypeCounts.TBM
+        },
+
+        {
+            "Category":
+                "GCP",
+
+            "Value":
+                pointTypeCounts.GCP
+        },
+
+        {
+            "Category":
+                "GPS",
+
+            "Value":
+                pointTypeCounts.GPS
+        },
+
+        {
+            "Category":
+                "CRM",
+
+            "Value":
+                pointTypeCounts.CRM
+        },
+
+        {
+            "Category":
+                "HSR",
+
+            "Value":
+                pointTypeCounts.HSR
+        },
+
+        {
+            "Category":
+                "BKL",
+
+            "Value":
+                pointTypeCounts.BKL
+        },
+
+        {
+            "Category":
+                "BK",
+
+            "Value":
+                pointTypeCounts.BK
+        }
+
+    ];
+
+}
+
+
+/* =========================================
+   EXPORT DATE HELPERS
+========================================= */
+
+function formatExportDate(
+    value
+) {
+
+    if (!value) {
+        return "";
+    }
+
+
+    let date;
+
+
+    if (
+        typeof value.toDate ===
+        "function"
+    ) {
+
+        date =
+            value.toDate();
+
+    }
+    else {
+
+        date =
+            new Date(value);
+
+    }
+
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return "";
+
+    }
+
+
+    return (
+
+        String(
+            date.getDate()
+        ).padStart(2, "0") +
+
+        "/" +
+
+        String(
+            date.getMonth() + 1
+        ).padStart(2, "0") +
+
+        "/" +
+
+        date.getFullYear()
+
+    );
+
+}
+
+
+function formatExportDateTime(
+    value
+) {
+
+    if (!value) {
+        return "";
+    }
+
+
+    let date;
+
+
+    if (
+        typeof value.toDate ===
+        "function"
+    ) {
+
+        date =
+            value.toDate();
+
+    }
+    else {
+
+        date =
+            new Date(value);
+
+    }
+
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return "";
+
+    }
+
+
+    return (
+
+        formatExportDate(
+            date
+        ) +
+
+        " " +
+
+        String(
+            date.getHours()
+        ).padStart(2, "0") +
+
+        ":" +
+
+        String(
+            date.getMinutes()
+        ).padStart(2, "0")
+
+    );
+
+}
+
+
+function parseExportDate(
+    value
+) {
+
+    if (!value) {
+        return 0;
+    }
+
+
+    const parts =
+        String(value).split("/");
+
+
+    if (
+        parts.length !== 3
+    ) {
+
+        return 0;
+
+    }
+
+
+    return new Date(
+        Number(parts[2]),
+        Number(parts[1]) - 1,
+        Number(parts[0])
+    ).getTime();
+
+}
+
+
+    /* =========================================
+       BACK BUTTON
+       ========================================= */
+
+    document.getElementById("backButton")
+        .addEventListener(
+            "click",
+            function () {
+                window.location.href =
+                    "admin-dashboard.html";
+            }
+        );
+
+
+    /* =========================================
+       AUTHENTICATION
+       ========================================= */
+
+    onAuthStateChanged(
+        auth,
+        function (user) {
+
+            if (!user) {
+                window.location.href =
+                    "admin.html";
+                return;
+            }
+
+            loadAnalytics();
+
+        }
+    );
+
+
+    /* =========================================
+       LOAD ANALYTICS
+       ========================================= */
+
+    async function loadAnalytics() {
+
+        try {
+
+            const controlPointsRef =
+                collection(
+                    db,
+                    "control_points"
+                );
+
+            const snapshot =
+                await getDocs(
+                    controlPointsRef
+                );
+
+            const controlPoints =
+                snapshot.docs.map(
+                    function (document) {
+
+                        return {
+                            id: document.id,
+                            ...document.data()
+                        };
+
+                    }
+                );
+
+
+            calculateConditionSummary(
+                controlPoints
+            );
+
+            createConditionChart(
+                controlPoints
+            );
+
+            await loadHistoryAnalytics(
+                controlPoints
+            );
+
+            createPointTypeChart(
+                controlPoints
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Analytics error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =========================================
+       CONDITION SUMMARY
+       ========================================= */
+
+    function calculateConditionSummary(
+        controlPoints
+    ) {
+
+        let good = 0;
+        let minor = 0;
+        let damaged = 0;
+        let critical = 0;
+        let replaced = 0;
+
+
+        controlPoints.forEach(
+            function (point) {
+
+                const status =
+                    point.monumentStatus ||
+                    "Not Inspected";
+
+
+                if (status === "Good") {
+                    good++;
+                }
+
+                else if (
+                    status === "Minor Damage"
+                ) {
+                    minor++;
+                }
+
+                else if (
+                    status === "Damaged"
+                ) {
+                    damaged++;
+                }
+
+                else if (
+                    status ===
+                    "Critical / Replacement Required"
+                ) {
+                    critical++;
+                }
+
+                else if (
+                    status === "Replaced"
+                ) {
+                    replaced++;
+                }
+
+            }
+        );
+
+
+        document.getElementById(
+            "totalPoints"
+        ).textContent =
+            controlPoints.length;
+
+
+        document.getElementById(
+            "goodPoints"
+        ).textContent =
+            good;
+
+
+        document.getElementById(
+            "minorPoints"
+        ).textContent =
+            minor;
+
+
+        document.getElementById(
+            "damagedPoints"
+        ).textContent =
+            damaged;
+
+
+        document.getElementById(
+            "criticalPoints"
+        ).textContent =
+            critical;
+
+
+        document.getElementById(
+            "replacedPoints"
+        ).textContent =
+            replaced;
+
+
+        document.getElementById(
+            "criticalPriority"
+        ).textContent =
+            critical;
+
+
+        document.getElementById(
+            "damagedPriority"
+        ).textContent =
+            damaged;
+
+
+        document.getElementById(
+            "minorPriority"
+        ).textContent =
+            minor;
+
+
+        document.getElementById(
+            "inspectionPriority"
+        ).textContent =
+            controlPoints.length -
+            good -
+            minor -
+            damaged -
+            critical -
+            replaced;
+
+
+        document.getElementById(
+            "replacedPriority"
+        ).textContent =
+            replaced;
+
+
+        document.getElementById(
+            "goodPriority"
+        ).textContent =
+            good;
+
+    }
+
+
+    /* =========================================
+       CONDITION CHART
+       ========================================= */
+
+    function createConditionChart(
+        controlPoints
+    ) {
+
+        const counts = {
+
+            Good: 0,
+
+            "Minor Damage": 0,
+
+            Damaged: 0,
+
+            "Critical / Replacement Required": 0,
+
+            Replaced: 0,
+
+            "Not Inspected": 0
+
+        };
+
+
+        controlPoints.forEach(
+            function (point) {
+
+                const status =
+                    point.monumentStatus ||
+                    "Not Inspected";
+
+
+                if (
+                    counts[status] !== undefined
+                ) {
+
+                    counts[status]++;
+
+                }
+
+            }
+        );
+
+
+        const ctx =
+            document.getElementById(
+                "conditionChart"
+            );
+
+
+        new Chart(
+            ctx,
+            {
+
+                type: "doughnut",
+
+                data: {
+
+                    labels: [
+
+                        "Good",
+
+                        "Minor Damage",
+
+                        "Damaged",
+
+                        "Critical / Replacement Required",
+
+                        "Replaced",
+
+                        "Not Inspected"
+
+                    ],
+
+                    datasets: [{
+
+                        data: [
+
+                            counts.Good,
+
+                            counts["Minor Damage"],
+
+                            counts.Damaged,
+
+                            counts[
+                                "Critical / Replacement Required"
+                            ],
+
+                            counts.Replaced,
+
+                            counts["Not Inspected"]
+
+                        ],
+
+                        borderWidth: 2
+
+                    }]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    plugins: {
+
+                        legend: {
+                            position: "right"
+                        },
+
+                        tooltip: {
+
+                            callbacks: {
+
+                                label:
+                                    function (context) {
+
+                                        return (
+                                            context.label +
+                                            ": " +
+                                            context.raw
+                                        );
+
+                                    }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =========================================
+       MONUMENT HISTORY ANALYSIS
+       ========================================= */
+
+    async function loadHistoryAnalytics(
+        controlPoints
+    ) {
+
+        let totalHistory = 0;
+
+        let damageHistory = 0;
+
+        let replacementHistory = 0;
+
+        let pointsWithHistory = 0;
+
+        const allHistoryRecords = [];
+
+
+        for (
+            const point of controlPoints
+        ) {
+
+            try {
+
+                const historyRef =
+                    collection(
+                        db,
+                        "control_points",
+                        point.id,
+                        "monument_history"
+                    );
+
+
+                const snapshot =
+                    await getDocs(
+                        historyRef
+                    );
+
+
+                if (!snapshot.empty) {
+                    pointsWithHistory++;
+                }
+
+
+                snapshot.forEach(
+                    function (historyDocument) {
+
+                        const record =
+                            historyDocument.data();
+
+
+                        const status =
+                            record.status ||
+                            "Not Inspected";
+
+
+                        totalHistory++;
+
+
+                        if (
+                            status === "Minor Damage" ||
+                            status === "Damaged" ||
+                            status ===
+                            "Critical / Replacement Required"
+                        ) {
+
+                            damageHistory++;
+
+                        }
+
+
+                        if (
+                            status === "Replaced"
+                        ) {
+
+                            replacementHistory++;
+
+                        }
+
+
+                        allHistoryRecords.push({
+
+                            pointId:
+                                point.id,
+
+                            pointCode:
+                                point.pointCode ||
+                                point.id,
+
+                            pointType:
+                                point.pointType ||
+                                "-",
+
+                            status:
+                                status,
+
+                            observationDate:
+                                record.observationDate ||
+                                null,
+
+                            updatedDate:
+                                record.date ||
+                                null,
+
+                            remarks:
+                                record.remarks ||
+                                ""
+
+                        });
+
+                    }
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "History error for point:",
+                    point.id,
+                    error
+                );
+
+            }
+
+        }
+
+
+        document.getElementById(
+            "totalHistory"
+        ).textContent =
+            totalHistory;
+
+
+        document.getElementById(
+            "damageHistory"
+        ).textContent =
+            damageHistory;
+
+
+        document.getElementById(
+            "replacementHistory"
+        ).textContent =
+            replacementHistory;
+
+
+        document.getElementById(
+            "pointsWithHistory"
+        ).textContent =
+            pointsWithHistory;
+
+
+        setupHistoryAnalysisCards(
+            allHistoryRecords
+        );
+
+    }
+
+
+    /* =========================================
+       HISTORY CARD CLICK EVENTS
+       ========================================= */
+
+    function setupHistoryAnalysisCards(
+        allHistoryRecords
+    ) {
+
+        const totalCard =
+            document.getElementById(
+                "totalHistoryCard"
+            );
+
+        const damageCard =
+            document.getElementById(
+                "damageHistoryCard"
+            );
+
+        const replacementCard =
+            document.getElementById(
+                "replacementHistoryCard"
+            );
+
+        const pointsCard =
+            document.getElementById(
+                "pointsWithHistoryCard"
+            );
+
+
+        if (totalCard) {
+
+            totalCard.onclick =
+                function () {
+
+                    showHistoryAnalysisTable(
+                        allHistoryRecords,
+                        "all"
+                    );
+
+                };
+
+        }
+
+
+        if (damageCard) {
+
+            damageCard.onclick =
+                function () {
+
+                    showHistoryAnalysisTable(
+                        allHistoryRecords,
+                        "damage"
+                    );
+
+                };
+
+        }
+
+
+        if (replacementCard) {
+
+            replacementCard.onclick =
+                function () {
+
+                    showHistoryAnalysisTable(
+                        allHistoryRecords,
+                        "replacement"
+                    );
+
+                };
+
+        }
+
+
+        if (pointsCard) {
+
+            pointsCard.onclick =
+                function () {
+
+                    showHistoryAnalysisTable(
+                        allHistoryRecords,
+                        "points"
+                    );
+
+                };
+
+        }
+
+    }
+
+
+    /* =========================================
+       SHOW HISTORY TABLE
+       ========================================= */
+
+    function showHistoryAnalysisTable(
+        allHistoryRecords,
+        category
+    ) {
+
+        const section =
+            document.getElementById(
+                "historyDetailsSection"
+            );
+
+        const title =
+            document.getElementById(
+                "historyDetailsTitle"
+            );
+
+        const subtitle =
+            document.getElementById(
+                "historyDetailsSubtitle"
+            );
+
+        const content =
+            document.getElementById(
+                "historyDetailsContent"
+            );
+
+
+        if (
+            !section ||
+            !title ||
+            !subtitle ||
+            !content
+        ) {
+
+            return;
+
+        }
+
+
+        let filteredRecords = [];
+
+
+        if (
+            category === "replacement"
+        ) {
+
+            filteredRecords =
+                allHistoryRecords.filter(
+                    function (record) {
+
+                        return (
+                            record.status ===
+                            "Replaced"
+                        );
+
+                    }
+                );
+
+
+            title.textContent =
+                "Replacement Records";
+
+
+            subtitle.textContent =
+                "Control points that have been replaced and their replacement dates.";
+
+
+            renderGroupedHistoryTable(
+                filteredRecords,
+                content,
+                "replacement"
+            );
+
+        }
+
+
+        else if (
+            category === "damage"
+        ) {
+
+            filteredRecords =
+                allHistoryRecords.filter(
+                    function (record) {
+
+                        return (
+                            record.status ===
+                            "Minor Damage" ||
+
+                            record.status ===
+                            "Damaged" ||
+
+                            record.status ===
+                            "Critical / Replacement Required"
+                        );
+
+                    }
+                );
+
+
+            title.textContent =
+                "Damage Records";
+
+
+            subtitle.textContent =
+                "Control points with damage-related history and their observation dates.";
+
+
+            renderGroupedHistoryTable(
+                filteredRecords,
+                content,
+                "damage"
+            );
+
+        }
+
+
+        else if (
+            category === "points"
+        ) {
+
+            filteredRecords =
+                allHistoryRecords;
+
+
+            title.textContent =
+                "Points With History";
+
+
+            subtitle.textContent =
+                "Control points with recorded monument history.";
+
+
+            renderPointHistoryTable(
+                filteredRecords,
+                content
+            );
+
+        }
+
+
+        else {
+
+            filteredRecords =
+                allHistoryRecords;
+
+
+            title.textContent =
+                "Total Status Changes";
+
+
+            subtitle.textContent =
+                "All recorded monument condition changes.";
+
+
+            renderAllHistoryTable(
+                filteredRecords,
+                content
+            );
+
+        }
+
+
+        section.classList.add(
+            "active"
+        );
+
+
+        section.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+    }
+
+
+    /* =========================================
+       GROUPED DAMAGE / REPLACEMENT TABLE
+       ========================================= */
+
+    function renderGroupedHistoryTable(
+        records,
+        container,
+        type
+    ) {
+
+        if (
+            records.length === 0
+        ) {
+
+            container.innerHTML = `
+
+                <div class="history-empty">
+
+                    No ${
+                        type === "replacement"
+                            ? "replacement"
+                            : "damage"
+                    } records available.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        const grouped = {};
+
+
+        records.forEach(
+            function (record) {
+
+                if (
+                    !grouped[
+                        record.pointId
+                    ]
+                ) {
+
+                    grouped[
+                        record.pointId
+                    ] = {
+
+                        pointCode:
+                            record.pointCode,
+
+                        pointType:
+                            record.pointType,
+
+                        records: []
+
+                    };
+
+                }
+
+
+                grouped[
+                    record.pointId
+                ].records.push(record);
+
+            }
+        );
+
+
+        Object.values(
+            grouped
+        ).forEach(
+            function (point) {
+
+                point.records.sort(
+                    function (a, b) {
+
+                        return (
+                            getObservationDate(a)
+                                .getTime() -
+
+                            getObservationDate(b)
+                                .getTime()
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        let maximumEvents = 0;
+
+
+        Object.values(
+            grouped
+        ).forEach(
+            function (point) {
+
+                maximumEvents =
+                    Math.max(
+                        maximumEvents,
+                        point.records.length
+                    );
+
+            }
+        );
+
+
+        const eventLabel =
+            type === "replacement"
+                ? "Replacement"
+                : "Damage";
+
+
+        let headerHTML = `
+
+            <th>No.</th>
+
+            <th>Point ID</th>
+
+            <th>Point Type</th>
+
+        `;
+
+
+        for (
+            let i = 1;
+            i <= maximumEvents;
+            i++
+        ) {
+
+            headerHTML += `
+
+                <th>
+                    ${eventLabel} ${i}
+                </th>
+
+            `;
+
+        }
+
+
+        let rowHTML = "";
+
+
+        const groupedPoints =
+            Object.values(grouped);
+
+
+        groupedPoints.sort(
+            function (a, b) {
+
+                return String(
+                    a.pointCode
+                ).localeCompare(
+                    String(
+                        b.pointCode
+                    )
+                );
+
+            }
+        );
+
+
+        groupedPoints.forEach(
+            function (point, index) {
+
+                rowHTML += `
+
+                    <tr>
+
+                        <td>
+                            ${index + 1}
+                        </td>
+
+                        <td>
+                            <strong>
+                                ${escapeHTML(
+                                    point.pointCode
+                                )}
+                            </strong>
+                        </td>
+
+                        <td>
+                            ${escapeHTML(
+                                point.pointType
+                            )}
+                        </td>
+
+                `;
+
+
+                for (
+                    let i = 0;
+                    i < maximumEvents;
+                    i++
+                ) {
+
+                    const record =
+                        point.records[i];
+
+
+                    if (record) {
+
+                        const date =
+                            formatObservationDate(
+                                record
+                            );
+
+
+                        let statusClass =
+                            "history-status-damage";
+
+
+                        if (
+                            record.status ===
+                            "Replaced"
+                        ) {
+
+                            statusClass =
+                                "history-status-replaced";
+
+                        }
+
+
+                        if (
+                            record.status ===
+                            "Critical / Replacement Required"
+                        ) {
+
+                            statusClass =
+                                "history-status-critical";
+
+                        }
+
+
+                        rowHTML += `
+
+                            <td>
+
+                                <span
+                                    class="history-status-badge ${statusClass}"
+                                    title="${escapeAttribute(
+                                        record.status
+                                    )}"
+                                >
+                                    ${date}
+                                </span>
+
+                            </td>
+
+                        `;
+
+                    }
+
+                    else {
+
+                        rowHTML += `
+                            <td>-</td>
+                        `;
+
+                    }
+
+                }
+
+
+                rowHTML += `
+
+                    </tr>
+
+                `;
+
+            }
+        );
+
+
+        container.innerHTML = `
+
+            <div class="history-table-wrapper">
+
+                <table class="history-analysis-table">
+
+                    <thead>
+
+                        <tr>
+                            ${headerHTML}
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+                        ${rowHTML}
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* =========================================
+       POINTS WITH HISTORY TABLE
+       ========================================= */
+
+    function renderPointHistoryTable(
+        records,
+        container
+    ) {
+
+        if (
+            records.length === 0
+        ) {
+
+            container.innerHTML = `
+
+                <div class="history-empty">
+                    No control points with history available.
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        const grouped = {};
+
+
+        records.forEach(
+            function (record) {
+
+                if (
+                    !grouped[
+                        record.pointId
+                    ]
+                ) {
+
+                    grouped[
+                        record.pointId
+                    ] = {
+
+                        pointCode:
+                            record.pointCode,
+
+                        pointType:
+                            record.pointType,
+
+                        records: []
+
+                    };
+
+                }
+
+
+                grouped[
+                    record.pointId
+                ].records.push(record);
+
+            }
+        );
+
+
+        Object.values(
+            grouped
+        ).forEach(
+            function (point) {
+
+                point.records.sort(
+                    function (a, b) {
+
+                        return (
+                            getObservationDate(a)
+                                .getTime() -
+
+                            getObservationDate(b)
+                                .getTime()
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        let maximumEvents = 0;
+
+
+        Object.values(
+            grouped
+        ).forEach(
+            function (point) {
+
+                maximumEvents =
+                    Math.max(
+                        maximumEvents,
+                        point.records.length
+                    );
+
+            }
+        );
+
+
+        let headers = `
+
+            <th>No.</th>
+
+            <th>Point ID</th>
+
+            <th>Point Type</th>
+
+        `;
+
+
+        for (
+            let i = 1;
+            i <= maximumEvents;
+            i++
+        ) {
+
+            headers += `
+                <th>History ${i}</th>
+            `;
+
+        }
+
+
+        let rows = "";
+
+
+        const points =
+            Object.values(grouped).sort(
+                function (a, b) {
+
+                    return String(
+                        a.pointCode
+                    ).localeCompare(
+                        String(
+                            b.pointCode
+                        )
+                    );
+
+                }
+            );
+
+
+        points.forEach(
+            function (point, index) {
+
+                rows += `
+
+                    <tr>
+
+                        <td>
+                            ${index + 1}
+                        </td>
+
+                        <td>
+                            <strong>
+                                ${escapeHTML(
+                                    point.pointCode
+                                )}
+                            </strong>
+                        </td>
+
+                        <td>
+                            ${escapeHTML(
+                                point.pointType
+                            )}
+                        </td>
+
+                `;
+
+
+                for (
+                    let i = 0;
+                    i < maximumEvents;
+                    i++
+                ) {
+
+                    if (
+                        point.records[i]
+                    ) {
+
+                        rows += `
+
+                            <td>
+
+                                <span
+                                    class="history-status-badge history-status-damage"
+                                    title="${escapeAttribute(
+                                        point.records[i].status
+                                    )}"
+                                >
+                                    ${formatObservationDate(
+                                        point.records[i]
+                                    )}
+                                </span>
+
+                            </td>
+
+                        `;
+
+                    }
+
+                    else {
+
+                        rows += `
+                            <td>-</td>
+                        `;
+
+                    }
+
+                }
+
+
+                rows += `
+                    </tr>
+                `;
+
+            }
+        );
+
+
+        container.innerHTML = `
+
+            <div class="history-table-wrapper">
+
+                <table class="history-analysis-table">
+
+                    <thead>
+
+                        <tr>
+                            ${headers}
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+                        ${rows}
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* =========================================
+       ALL HISTORY TABLE
+       ========================================= */
+
+    function renderAllHistoryTable(
+        records,
+        container
+    ) {
+
+        if (
+            records.length === 0
+        ) {
+
+            container.innerHTML = `
+
+                <div class="history-empty">
+                    No monument history records available.
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        const sortedRecords =
+            [...records].sort(
+                function (a, b) {
+
+                    return (
+                        getObservationDate(a)
+                            .getTime() -
+
+                        getObservationDate(b)
+                            .getTime()
+                    );
+
+                }
+            );
+
+
+        let rows = "";
+
+
+        sortedRecords.forEach(
+            function (record, index) {
+
+                let statusClass =
+                    "history-status-damage";
+
+
+                if (
+                    record.status ===
+                    "Replaced"
+                ) {
+
+                    statusClass =
+                        "history-status-replaced";
+
+                }
+
+
+                if (
+                    record.status ===
+                    "Critical / Replacement Required"
+                ) {
+
+                    statusClass =
+                        "history-status-critical";
+
+                }
+
+
+                rows += `
+
+                    <tr>
+
+                        <td>
+                            ${index + 1}
+                        </td>
+
+                        <td>
+                            <strong>
+                                ${escapeHTML(
+                                    record.pointCode
+                                )}
+                            </strong>
+                        </td>
+
+                        <td>
+                            ${escapeHTML(
+                                record.pointType
+                            )}
+                        </td>
+
+                        <td>
+
+                            <span
+                                class="history-status-badge ${statusClass}"
+                            >
+                                ${escapeHTML(
+                                    record.status
+                                )}
+                            </span>
+
+                        </td>
+
+                        <td class="history-date">
+                            ${formatObservationDate(
+                                record
+                            )}
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        );
+
+
+        container.innerHTML = `
+
+            <div class="history-table-wrapper">
+
+                <table class="history-analysis-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>No.</th>
+
+                            <th>Point ID</th>
+
+                            <th>Point Type</th>
+
+                            <th>Status</th>
+
+                            <th>Observation Date</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+                        ${rows}
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* =========================================
+       DATE HELPERS
+       ========================================= */
+
+    function getObservationDate(
+        record
+    ) {
+
+        if (
+            record.observationDate &&
+            typeof record.observationDate.toDate ===
+            "function"
+        ) {
+
+            return record.observationDate.toDate();
+
+        }
+
+
+        if (
+            record.observationDate instanceof Date
+        ) {
+
+            return record.observationDate;
+
+        }
+
+
+        if (
+            typeof record.observationDate ===
+            "string"
+        ) {
+
+            const parsed =
+                new Date(
+                    record.observationDate
+                );
+
+
+            if (
+                !Number.isNaN(
+                    parsed.getTime()
+                )
+            ) {
+
+                return parsed;
+
+            }
+
+        }
+
+
+        return new Date(0);
+
+    }
+
+
+    function formatObservationDate(
+        record
+    ) {
+
+        const date =
+            getObservationDate(record);
+
+
+        if (
+            date.getTime() === 0
+        ) {
+
+            return "-";
+
+        }
+
+
+        const day =
+            String(
+                date.getDate()
+            ).padStart(
+                2,
+                "0"
+            );
+
+
+        const month =
+            String(
+                date.getMonth() + 1
+            ).padStart(
+                2,
+                "0"
+            );
+
+
+        const year =
+            date.getFullYear();
+
+
+        return (
+            day +
+            "/" +
+            month +
+            "/" +
+            year
+        );
+
+    }
+
+
+    /* =========================================
+       HTML SAFETY
+       ========================================= */
+
+    function escapeHTML(
+        value
+    ) {
+
+        return String(
+            value ?? ""
+        )
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+    }
+
+
+    function escapeAttribute(
+        value
+    ) {
+
+        return escapeHTML(value);
+
+    }
+
+
+    /* =========================================
+       CLOSE HISTORY DETAILS
+       ========================================= */
+
+    document.getElementById(
+        "closeHistoryDetails"
+    ).addEventListener(
+        "click",
+        function () {
+
+            document
+                .getElementById(
+                    "historyDetailsSection"
+                )
+                .classList.remove(
+                    "active"
+                );
+
+        }
+    );
+
+
+    /* =========================================
+       NORMALIZE POINT TYPE
+       ========================================= */
+
+    function normalizePointType(type) {
+
+        const value =
+            String(type || "")
+                .trim()
+                .toUpperCase();
+
+
+        /*
+         * Old CP records are counted as GCP.
+         */
+        if (value === "CP") {
+            return "GCP";
+        }
+
+
+        return value;
+
+    }
+
+
+    /* =========================================
+       CONDITION BY POINT TYPE
+       ========================================= */
+
+    function createPointTypeChart(
+        controlPoints
+    ) {
+
+        const pointTypes = {
+
+            TBM: {
+                Good: 0,
+                "Minor Damage": 0,
+                Damaged: 0,
+                "Critical / Replacement Required": 0,
+                Replaced: 0,
+                "Not Inspected": 0
+            },
+
+            GCP: {
+                Good: 0,
+                "Minor Damage": 0,
+                Damaged: 0,
+                "Critical / Replacement Required": 0,
+                Replaced: 0,
+                "Not Inspected": 0
+            },
+
+            GPS: {
+                Good: 0,
+                "Minor Damage": 0,
+                Damaged: 0,
+                "Critical / Replacement Required": 0,
+                Replaced: 0,
+                "Not Inspected": 0
+            },
+
+            CRM: {
+                Good: 0,
+                "Minor Damage": 0,
+                Damaged: 0,
+                "Critical / Replacement Required": 0,
+                Replaced: 0,
+                "Not Inspected": 0
+            },
+
+            HSR: {
+                Good: 0,
+                "Minor Damage": 0,
+                Damaged: 0,
+                "Critical / Replacement Required": 0,
+                Replaced: 0,
+                "Not Inspected": 0
+            },
+
+            BKL: {
+                Good: 0,
+                "Minor Damage": 0,
+                Damaged: 0,
+                "Critical / Replacement Required": 0,
+                Replaced: 0,
+                "Not Inspected": 0
+            },
+
+            BK: {
+                Good: 0,
+                "Minor Damage": 0,
+                Damaged: 0,
+                "Critical / Replacement Required": 0,
+                Replaced: 0,
+                "Not Inspected": 0
+            }
+
+        };
+
+
+        controlPoints.forEach(
+            function (point) {
+
+                const type =
+                    normalizePointType(
+                        point.pointType
+                    );
+
+
+                const status =
+                    point.monumentStatus ||
+                    "Not Inspected";
+
+
+                if (
+                    pointTypes[type] &&
+                    pointTypes[type][status] !== undefined
+                ) {
+
+                    pointTypes[type][status]++;
+
+                }
+
+            }
+        );
+
+
+        const labels = [
+            "TBM",
+            "GCP",
+            "GPS",
+            "CRM",
+            "HSR",
+            "BKL",
+            "BK"
+        ];
+
+
+        const ctx =
+            document.getElementById(
+                "pointTypeChart"
+            );
+
+
+        new Chart(
+            ctx,
+            {
+
+                type: "bar",
+
+                data: {
+
+                    labels: labels,
+
+                    datasets: [
+
+                        {
+                            label: "Good",
+
+                            data:
+                                labels.map(
+                                    function (type) {
+
+                                        return pointTypes[
+                                            type
+                                        ].Good;
+
+                                    }
+                                )
+                        },
+
+
+                        {
+                            label: "Minor Damage",
+
+                            data:
+                                labels.map(
+                                    function (type) {
+
+                                        return pointTypes[
+                                            type
+                                        ]["Minor Damage"];
+
+                                    }
+                                )
+                        },
+
+
+                        {
+                            label: "Damaged",
+
+                            data:
+                                labels.map(
+                                    function (type) {
+
+                                        return pointTypes[
+                                            type
+                                        ].Damaged;
+
+                                    }
+                                )
+                        },
+
+
+                        {
+                            label:
+                                "Critical / Replacement Required",
+
+                            data:
+                                labels.map(
+                                    function (type) {
+
+                                        return pointTypes[
+                                            type
+                                        ][
+                                            "Critical / Replacement Required"
+                                        ];
+
+                                    }
+                                )
+                        },
+
+
+                        {
+                            label: "Replaced",
+
+                            data:
+                                labels.map(
+                                    function (type) {
+
+                                        return pointTypes[
+                                            type
+                                        ].Replaced;
+
+                                    }
+                                )
+                        },
+
+
+                        {
+                            label: "Not Inspected",
+
+                            data:
+                                labels.map(
+                                    function (type) {
+
+                                        return pointTypes[
+                                            type
+                                        ]["Not Inspected"];
+
+                                    }
+                                )
+                        }
+
+                    ]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero: true,
+
+                            ticks: {
+                                precision: 0
+                            }
+
+                        }
+
+                    },
+
+                    plugins: {
+
+                        legend: {
+                            position: "bottom"
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
