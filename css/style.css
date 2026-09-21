@@ -2024,171 +2024,194 @@ h1 {
 }
 ```
 
-
 /* =========================================================
-   FINAL MOBILE MAP LAYOUT
-   This block is intentionally LAST so it overrides all
-   earlier mobile map rules.
+   MOBILE MAP — FINAL STABLE LAYOUT
    ========================================================= */
 
 @media screen and (max-width: 700px) {
 
     .map-body {
+        width: 100% !important;
+        height: 100dvh !important;
+        min-height: 100dvh !important;
         margin: 0 !important;
         padding: 0 !important;
-        height: 100vh !important;
         overflow: hidden !important;
+        position: fixed !important;
+        inset: 0 !important;
     }
 
     .map-header {
-        position: relative !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
         width: 100% !important;
         height: 64px !important;
         min-height: 64px !important;
         padding: 0 14px !important;
+        margin: 0 !important;
         display: flex !important;
         align-items: center !important;
         gap: 12px !important;
-        background: white !important;
-        z-index: 2000 !important;
+        background: #fff !important;
+        z-index: 5000 !important;
     }
 
     .map-header h1 {
         margin: 0 !important;
-        padding: 0 !important;
         font-size: 23px !important;
         line-height: 1 !important;
-        color: #173568 !important;
         white-space: nowrap !important;
     }
 
     .back-button {
         width: 44px !important;
         height: 44px !important;
-        flex-shrink: 0 !important;
+        flex: 0 0 44px !important;
         font-size: 25px !important;
     }
 
     #map {
-        position: relative !important;
+        position: fixed !important;
+        top: 64px !important;
+        left: 0 !important;
         width: 100% !important;
-        height: calc(100vh - 64px) !important;
+        height: calc(100dvh - 64px) !important;
         min-height: 0 !important;
         margin: 0 !important;
+        z-index: 1 !important;
     }
 
-    /* SEARCH — left side */
+    /* Google map type controls remain at the top of the map. */
+
+    /* SEARCH CARD */
     .control-selector {
-        position: absolute !important;
-        top: 78px !important;
-        left: 12px !important;
-        right: auto !important;
-        width: calc(100vw - 165px) !important;
+        position: fixed !important;
+        top: 120px !important;
+        left: 14px !important;
+        width: calc(100vw - 166px) !important;
         max-width: 520px !important;
         margin: 0 !important;
-        padding: 13px !important;
-        border-radius: 16px !important;
-        z-index: 3000 !important;
-        background: white !important;
+        padding: 12px 13px !important;
+        border-radius: 18px !important;
+        background: #fff !important;
         box-shadow: 0 5px 18px rgba(0,0,0,.20) !important;
+        z-index: 4000 !important;
     }
 
     .control-selector label {
         display: block !important;
-        margin: 0 0 8px !important;
-        font-size: 15px !important;
+        margin: 0 0 7px !important;
+        font-size: 14px !important;
         line-height: 1.2 !important;
         white-space: nowrap !important;
     }
 
     .control-selector select {
         width: 100% !important;
-        height: 46px !important;
+        height: 44px !important;
         padding: 0 10px !important;
-        font-size: 14px !important;
+        font-size: 13px !important;
         border: 2px solid #1e73d8 !important;
         border-radius: 10px !important;
+        background: #fff !important;
     }
 
-    /* RIGHT-SIDE ACTION BUTTONS */
+    /* RIGHT BUTTON STACK */
     .location-button,
     .traverse-button,
     .add-station-button {
-        position: absolute !important;
-        right: 12px !important;
-        width: 135px !important;
+        position: fixed !important;
+        right: 14px !important;
+        width: 130px !important;
         height: 44px !important;
         min-height: 44px !important;
-        padding: 0 10px !important;
         margin: 0 !important;
-        border-radius: 22px !important;
+        padding: 0 9px !important;
+        border-radius: 23px !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
         white-space: nowrap !important;
         font-size: 12px !important;
-        font-weight: 700 !important;
-        z-index: 3000 !important;
+        z-index: 4000 !important;
     }
 
     .location-button {
-        top: 78px !important;
+        top: 120px !important;
     }
 
     .traverse-button {
-        top: 130px !important;
+        top: 174px !important;
     }
 
     .add-station-button {
-        top: 182px !important;
+        top: 228px !important;
     }
 
-    /* TRAVERSE PANEL — bottom */
+    /* STATION LIST, WHEN SHOWN */
+    .station-list {
+        position: fixed !important;
+        top: 282px !important;
+        right: 14px !important;
+        left: auto !important;
+        width: 220px !important;
+        max-width: calc(100vw - 28px) !important;
+        max-height: 190px !important;
+        margin: 0 !important;
+        z-index: 4000 !important;
+    }
+
+    /* BOTTOM TRAVERSE SHEET */
     .traverse-panel {
-        position: absolute !important;
+        position: fixed !important;
         left: 0 !important;
         right: 0 !important;
         bottom: 0 !important;
-        width: 100% !important;
-        max-width: none !important;
-        min-height: 0 !important;
-        max-height: 29vh !important;
+        top: auto !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        height: 25dvh !important;
+        min-height: 190px !important;
+        max-height: 25dvh !important;
         margin: 0 !important;
-        padding: 16px !important;
+        padding: 18px 14px 16px !important;
         overflow-y: auto !important;
-        border-radius: 22px 22px 0 0 !important;
-        z-index: 2500 !important;
-        background: white !important;
-        box-shadow: 0 -6px 22px rgba(0,0,0,.20) !important;
+        border-radius: 24px 24px 0 0 !important;
+        background: #fff !important;
+        z-index: 3500 !important;
+        box-shadow: 0 -6px 24px rgba(0,0,0,.20) !important;
     }
 
     .traverse-panel h2 {
         margin: 0 0 5px !important;
         font-size: 22px !important;
-        color: #173568 !important;
     }
 
     .traverse-panel p {
         margin: 0 0 8px !important;
         font-size: 14px !important;
-        line-height: 1.4 !important;
+        line-height: 1.35 !important;
     }
 
     .traverse-result {
-        padding: 10px !important;
         margin-bottom: 8px !important;
-        font-size: 13px !important;
+        padding: 9px !important;
+        font-size: 12px !important;
     }
 
     .clear-traverse-button {
-        min-width: 90px !important;
+        min-width: 95px !important;
+        height: 40px !important;
         min-height: 40px !important;
-        padding: 0 16px !important;
+        padding: 0 18px !important;
+        border-radius: 21px !important;
     }
 
-    /* DETAILS — inside bottom panel area, but above it */
+    /* DETAILS BUTTON: fixed inside the bottom sheet area */
     .details-button {
-        position: absolute !important;
+        position: fixed !important;
         right: 14px !important;
         bottom: 16px !important;
         width: auto !important;
@@ -2197,35 +2220,22 @@ h1 {
         min-height: 44px !important;
         margin: 0 !important;
         padding: 0 18px !important;
-        border-radius: 22px !important;
-        z-index: 4000 !important;
+        border-radius: 23px !important;
+        z-index: 4500 !important;
         font-size: 13px !important;
     }
 
-    /* Station list */
-    .station-list {
-        position: absolute !important;
-        top: 235px !important;
-        right: 12px !important;
-        left: auto !important;
-        width: 220px !important;
-        max-width: calc(100vw - 24px) !important;
-        max-height: 210px !important;
-        margin: 0 !important;
-        z-index: 3000 !important;
-    }
-
-    /* Details card */
+    /* CONTROL POINT DETAILS CARD */
     .point-info {
-        position: absolute !important;
+        position: fixed !important;
         left: 12px !important;
         right: 12px !important;
         bottom: 12px !important;
         width: auto !important;
         max-width: none !important;
-        max-height: 78vh !important;
+        max-height: 78dvh !important;
         margin: 0 !important;
-        z-index: 5000 !important;
+        z-index: 6000 !important;
     }
 
     .traverse-map-label {
@@ -2236,14 +2246,8 @@ h1 {
     .traverse-bearing,
     .traverse-distance {
         font-size: 11px !important;
-        font-weight: 700 !important;
     }
 }
-
-
-/* =========================================================
-   FINAL SMALL-PHONE ADJUSTMENT
-   ========================================================= */
 
 @media screen and (max-width: 450px) {
 
@@ -2260,18 +2264,19 @@ h1 {
     .back-button {
         width: 42px !important;
         height: 42px !important;
-        font-size: 23px !important;
+        flex-basis: 42px !important;
     }
 
     #map {
-        height: calc(100vh - 60px) !important;
+        top: 60px !important;
+        height: calc(100dvh - 60px) !important;
     }
 
     .control-selector {
-        top: 72px !important;
+        top: 112px !important;
         left: 10px !important;
         width: calc(100vw - 145px) !important;
-        padding: 11px !important;
+        padding: 10px 11px !important;
     }
 
     .control-selector label {
@@ -2294,27 +2299,27 @@ h1 {
     }
 
     .location-button {
-        top: 72px !important;
+        top: 112px !important;
     }
 
     .traverse-button {
-        top: 122px !important;
+        top: 162px !important;
     }
 
     .add-station-button {
-        top: 172px !important;
+        top: 212px !important;
     }
 
     .station-list {
-        top: 222px !important;
+        top: 262px !important;
         right: 10px !important;
-        width: 200px !important;
     }
 
     .traverse-panel {
-        max-height: 30vh !important;
-        padding: 14px !important;
-        border-radius: 20px 20px 0 0 !important;
+        height: 25dvh !important;
+        min-height: 175px !important;
+        max-height: 25dvh !important;
+        padding: 14px 12px !important;
     }
 
     .details-button {
@@ -2322,5 +2327,6 @@ h1 {
         bottom: 12px !important;
         min-width: 96px !important;
         height: 40px !important;
+        min-height: 40px !important;
     }
 }
