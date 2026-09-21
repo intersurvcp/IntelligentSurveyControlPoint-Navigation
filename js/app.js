@@ -533,7 +533,46 @@ async function initMap() {
             "stations"
         );
 
+// =========================================================
+// CLOSE TRAVERSE STATIONS PANEL
+// =========================================================
 
+const stationPanel =
+    stationsListElement.closest(".station-list");
+
+if (stationPanel) {
+
+    const closeStationButton =
+        document.createElement("button");
+
+    closeStationButton.className =
+        "close-station-list";
+
+    closeStationButton.type = "button";
+
+    closeStationButton.innerHTML = "&times;";
+
+    closeStationButton.title =
+        "Close Traverse Stations";
+
+    closeStationButton.setAttribute(
+        "aria-label",
+        "Close Traverse Stations"
+    );
+
+    stationPanel.appendChild(
+        closeStationButton
+    );
+
+    closeStationButton.addEventListener(
+        "click",
+        function () {
+
+            stationPanel.style.display = "none";
+
+        }
+    );
+}
     // ========================================================
     // INITIAL UI STATE
     // ========================================================

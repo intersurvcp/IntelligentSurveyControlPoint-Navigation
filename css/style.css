@@ -2736,3 +2736,59 @@ h1 {
     transform: none;
 
 }
+
+/* =========================================================
+   CLOSE BUTTON - TRAVERSE STATIONS
+   ========================================================= */
+
+.station-list {
+    position: absolute;
+}
+
+.close-station-list {
+    position: absolute;
+
+    top: 10px;
+    right: 10px;
+
+    width: 36px;
+    height: 36px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #e9eef5;
+
+    color: #334155;
+
+    font-size: 25px;
+    font-weight: bold;
+
+    line-height: 36px;
+
+    text-align: center;
+
+    padding: 0;
+
+    cursor: pointer;
+
+    z-index: 20;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.close-station-list:hover {
+    background: #dce5ef;
+
+    transform: scale(1.05);
+}
+
+.close-station-list:active {
+    transform: scale(0.95);
+}
