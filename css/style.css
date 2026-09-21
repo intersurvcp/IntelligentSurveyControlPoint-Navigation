@@ -1,4 +1,3 @@
-```
 /* =========================================================
    INTERSURV
    COMPLETE STYLE SHEET
@@ -1277,15 +1276,737 @@ h1 {
    MAX WIDTH 700px
    ========================================================= */
 
+@media screen and (max-width: 700px) {
+
+
+    /* =====================================================
+       MOBILE HEADER
+       ===================================================== */
+
+    .map-header {
+
+        height: 64px;
+
+        padding:
+            0 14px;
+
+        gap: 12px;
+
+        box-shadow:
+            0 2px 10px
+            rgba(0, 0, 0, 0.12);
+    }
+
+
+    .map-header h1 {
+
+        margin: 0 !important;
+
+        font-size: 23px !important;
+
+        line-height: 1;
+
+        white-space: nowrap;
+    }
+
+
+    .back-button {
+
+        width: 44px;
+
+        height: 44px;
+
+        font-size: 25px;
+    }
+
+
+    /* =====================================================
+       MOBILE MAP
+       ===================================================== */
+
+    #map {
+
+        height:
+            calc(100vh - 64px);
+
+        width: 100%;
+    }
+
+
+    /* =====================================================
+       MOBILE CONTROL POINT SELECTOR
+       ===================================================== */
+
+    .control-selector {
+
+        position: absolute;
+
+        top: 78px;
+
+        left: 12px;
+
+        width:
+            calc(100vw - 24px);
+
+        max-width: none;
+
+        padding: 14px;
+
+        border-radius: 16px;
+
+        box-shadow:
+            0 5px 18px
+            rgba(0, 0, 0, 0.20);
+
+        z-index: 1000;
+    }
+
+
+    .control-selector label {
+
+        margin-bottom: 8px;
+
+        font-size: 15px !important;
+
+        line-height: 1.2;
+
+        white-space: nowrap;
+    }
+
+
+    .control-selector select {
+
+        width: 100%;
+
+        height: 46px;
+
+        padding:
+            0 12px;
+
+        font-size: 15px !important;
+
+        border-radius: 10px;
+    }
+
+
+    /* =====================================================
+       MOBILE RIGHT SIDE BUTTONS
+       ===================================================== */
+
+    .location-button,
+    .traverse-button,
+    .add-station-button {
+
+        right: 14px;
+
+        width: 145px;
+
+        height: 44px;
+
+        padding: 0 12px;
+
+        border-radius: 22px;
+
+        font-size: 13px !important;
+
+        font-weight: 700;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        white-space: nowrap;
+
+        z-index: 1001;
+    }
+
+
+    /* =====================================================
+       MY LOCATION
+       ===================================================== */
+
+    .location-button {
+
+        top: 150px;
+    }
+
+
+    /* =====================================================
+       TRAVERSE
+       ===================================================== */
+
+    .traverse-button {
+
+        top: 204px;
+    }
+
+
+    /* =====================================================
+       ADD STATION
+       ===================================================== */
+
+    .add-station-button {
+
+        top: 258px;
+    }
+
+
+    /* =====================================================
+       STATION LIST
+       ===================================================== */
+
+    .station-list {
+
+        position: absolute;
+
+        top: 316px;
+
+        left: 12px;
+
+        right: 12px;
+
+        width:
+            calc(100vw - 24px);
+
+        max-width: none;
+
+        max-height: 220px;
+
+        padding: 16px;
+
+        border-radius: 16px;
+
+        z-index: 1002;
+    }
+
+
+    .station-list h3 {
+
+        margin:
+            0 0 12px;
+
+        font-size: 17px !important;
+    }
+
+
+    .station-list ol {
+
+        padding-left: 24px;
+    }
+
+
+    .station-list li {
+
+        min-height: 38px;
+
+        margin-bottom: 8px;
+
+        font-size: 14px !important;
+    }
+
+
+    .remove-station-button {
+
+        width: 30px;
+
+        height: 30px;
+
+        font-size: 14px;
+    }
+
+
+    /* =====================================================
+       MOBILE TRAVERSE PANEL
+       ===================================================== */
+
+    .traverse-panel {
+
+        position: absolute;
+
+        left: 12px;
+
+        right: 12px;
+
+        bottom: 12px;
+
+        width: auto;
+
+        max-height: 30vh;
+
+        padding: 16px;
+
+        border-radius: 18px;
+
+        z-index: 1000;
+
+        overflow-y: auto;
+
+        box-shadow:
+            0 6px 22px
+            rgba(0, 0, 0, 0.22);
+    }
+
+
+    .traverse-panel h2 {
+
+        margin:
+            0 0 5px;
+
+        font-size: 22px !important;
+
+        color: #173568;
+    }
+
+
+    .traverse-panel p {
+
+        margin:
+            0 0 8px;
+
+        font-size: 14px !important;
+
+        line-height: 1.4;
+    }
+
+
+    .traverse-result {
+
+        padding: 11px;
+
+        margin-bottom: 8px;
+
+        border-radius: 10px;
+
+        font-size: 13px !important;
+
+        line-height: 1.4;
+    }
+
+
+    .traverse-result-header {
+
+        font-size: 14px !important;
+    }
+
+
+    /* =====================================================
+       MOBILE CLEAR BUTTON
+       ===================================================== */
+
+    .clear-traverse-button {
+
+        min-width: 72px;
+
+        min-height: 40px;
+
+        padding:
+            0 15px;
+
+        border-radius: 20px;
+
+        font-size: 13px;
+    }
+
+
+    /* =====================================================
+       MOBILE DETAILS BUTTON
+       ===================================================== */
+
+    .details-button {
+
+        right: 14px;
+
+        bottom: 18px;
+
+        min-width: 110px;
+
+        height: 44px;
+
+        padding:
+            0 18px;
+
+        border-radius: 22px;
+
+        font-size: 13px !important;
+
+        z-index: 1100;
+    }
+
+
+    /* =====================================================
+       MOBILE CONTROL POINT DETAILS
+       ===================================================== */
+
+    .point-info {
+
+        position: absolute;
+
+        left: 12px;
+
+        right: 12px;
+
+        bottom: 12px;
+
+        width: auto;
+
+        max-height: 78vh;
+
+        padding: 18px;
+
+        border-radius: 18px;
+
+        z-index: 1200;
+
+        box-shadow:
+            0 6px 24px
+            rgba(0, 0, 0, 0.25);
+    }
+
+
+    .point-info h2 {
+
+        margin-bottom: 8px;
+
+        padding-right: 38px;
+
+        font-size: 22px;
+    }
+
+
+    .point-info p {
+
+        font-size: 14px;
+
+        line-height: 1.5;
+    }
+
+
+    /* =====================================================
+       MOBILE DETAILS PHOTO
+       ===================================================== */
+
+    .control-point-photo {
+
+        width: 100%;
+
+        height: 220px;
+
+        object-fit: cover;
+
+        border-radius: 12px;
+
+        margin:
+            12px 0 16px;
+    }
+
+
+    .no-photo {
+
+        height: 150px;
+
+        font-size: 14px;
+    }
+
+
+    /* =====================================================
+       MOBILE NAVIGATE BUTTON
+       ===================================================== */
+
+    .navigate-button {
+
+        min-height: 46px;
+
+        font-size: 15px;
+    }
+
+
+    /* =====================================================
+       MOBILE CLOSE BUTTON
+       ===================================================== */
+
+    .close-details {
+
+        top: 10px;
+
+        right: 10px;
+
+        width: 34px;
+
+        height: 34px;
+
+        font-size: 18px;
+    }
+
+
+    /* =====================================================
+       MOBILE TRAVERSE LABEL
+       ===================================================== */
+
+    .traverse-map-label {
+
+        width: 150px;
+
+        height: 55px;
+    }
+
+
+    .traverse-bearing,
+    .traverse-distance {
+
+        font-size: 11px !important;
+
+        font-weight: 700;
+    }
+
+}
+
+
 /* =========================================================
-   HOME PAGE SMALL SCREEN
-   ONLY HOME PAGE IS RESPONSIVE HERE
-   MAP FOLLOWS THE DESKTOP / LAPTOP LAYOUT
+   VERY SMALL PHONES
+   MAX WIDTH 450px
    ========================================================= */
 
 @media screen and (max-width: 450px) {
 
-/* =====================================================
+
+    /* =====================================================
+       HEADER
+       ===================================================== */
+
+    .map-header {
+
+        height: 60px;
+
+        padding:
+            0 10px;
+
+        gap: 9px;
+    }
+
+
+    .map-header h1 {
+
+        font-size: 21px !important;
+    }
+
+
+    .back-button {
+
+        width: 42px;
+
+        height: 42px;
+
+        font-size: 23px;
+    }
+
+
+    #map {
+
+        height:
+            calc(100vh - 60px);
+    }
+
+
+    /* =====================================================
+       SELECTOR
+       ===================================================== */
+
+    .control-selector {
+
+        top: 72px;
+
+        left: 10px;
+
+        width:
+            calc(100vw - 20px);
+
+        padding: 13px;
+
+        border-radius: 15px;
+    }
+
+
+    .control-selector label {
+
+        font-size: 14px !important;
+    }
+
+
+    .control-selector select {
+
+        height: 44px;
+
+        font-size: 14px !important;
+    }
+
+
+    /* =====================================================
+       BUTTONS
+       ===================================================== */
+
+    .location-button,
+    .traverse-button,
+    .add-station-button {
+
+        right: 10px;
+
+        width: 135px;
+
+        height: 42px;
+        font-size: 12px !important;
+
+        border-radius: 21px;
+    }
+
+
+    .location-button {
+
+        top: 142px;
+    }
+
+
+    .traverse-button {
+
+        top: 192px;
+    }
+
+
+    .add-station-button {
+
+        top: 242px;
+    }
+
+
+    /* =====================================================
+       STATION LIST
+       ===================================================== */
+
+    .station-list {
+
+        top: 294px;
+
+        left: 10px;
+
+        right: 10px;
+
+        width:
+            calc(100vw - 20px);
+
+        max-height: 200px;
+
+        padding: 14px;
+    }
+
+
+    .station-list h3 {
+
+        font-size: 16px !important;
+    }
+
+
+    .station-list li {
+
+        font-size: 13px !important;
+    }
+
+
+    /* =====================================================
+       TRAVERSE PANEL
+       ===================================================== */
+
+    .traverse-panel {
+
+        left: 10px;
+
+        right: 10px;
+
+        bottom: 10px;
+
+        max-height: 32vh;
+
+        padding: 14px;
+
+        border-radius: 17px;
+    }
+
+
+    .traverse-panel h2 {
+
+        font-size: 20px !important;
+    }
+
+
+    .traverse-panel p {
+
+        font-size: 13px !important;
+    }
+
+
+    .traverse-result {
+
+        padding: 10px;
+
+        font-size: 12px !important;
+    }
+
+
+    /* =====================================================
+       DETAILS
+       ===================================================== */
+
+    .details-button {
+
+        right: 10px;
+
+        bottom: 16px;
+
+        min-width: 100px;
+
+        height: 42px;
+
+        font-size: 12px !important;
+    }
+
+
+    .point-info {
+
+        left: 10px;
+
+        right: 10px;
+
+        bottom: 10px;
+
+        max-height: 80vh;
+
+        padding: 16px;
+
+        border-radius: 17px;
+    }
+
+
+    .point-info h2 {
+
+        font-size: 20px;
+    }
+
+
+    .control-point-photo {
+
+        height: 200px;
+    }
+
+
+    .navigate-button {
+
+        min-height: 44px;
+
+        font-size: 14px;
+    }
+
+
+    /* =====================================================
        HOME PAGE SMALL SCREEN
        ===================================================== */
 
@@ -1517,7 +2238,6 @@ h1 {
 
 }
 
-
 /* =========================================
    USER MONUMENT PHOTO GALLERY
    ========================================= */
@@ -1640,7 +2360,6 @@ h1 {
     transform: scale(1.2);
 
 }
-
 
 /* =========================================
    CLICKABLE HISTORY CARDS
@@ -1959,11 +2678,9 @@ h1 {
     }
 
 }
-
-
 /* =========================================
    EXPORT BUTTON
-   ========================================= */
+========================================= */
 
 .export-button {
 
@@ -1994,7 +2711,6 @@ h1 {
 
 }
 
-
 .export-button:hover {
 
     background: #1256ad;
@@ -2004,14 +2720,12 @@ h1 {
 
 }
 
-
 .export-button:active {
 
     transform:
         translateY(0);
 
 }
-
 
 .export-button:disabled {
 
@@ -2021,312 +2735,4 @@ h1 {
 
     transform: none;
 
-}
-```
-
-/* =========================================================
-   MOBILE MAP — FINAL STABLE LAYOUT
-   ========================================================= */
-
-@media screen and (max-width: 700px) {
-
-    .map-body {
-        width: 100% !important;
-        height: 100dvh !important;
-        min-height: 100dvh !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        overflow: hidden !important;
-        position: fixed !important;
-        inset: 0 !important;
-    }
-
-    .map-header {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-        height: 64px !important;
-        min-height: 64px !important;
-        padding: 0 14px !important;
-        margin: 0 !important;
-        display: flex !important;
-        align-items: center !important;
-        gap: 12px !important;
-        background: #fff !important;
-        z-index: 5000 !important;
-    }
-
-    .map-header h1 {
-        margin: 0 !important;
-        font-size: 23px !important;
-        line-height: 1 !important;
-        white-space: nowrap !important;
-    }
-
-    .back-button {
-        width: 44px !important;
-        height: 44px !important;
-        flex: 0 0 44px !important;
-        font-size: 25px !important;
-    }
-
-    #map {
-        position: fixed !important;
-        top: 64px !important;
-        left: 0 !important;
-        width: 100% !important;
-        height: calc(100dvh - 64px) !important;
-        min-height: 0 !important;
-        margin: 0 !important;
-        z-index: 1 !important;
-    }
-
-    /* Google map type controls remain at the top of the map. */
-
-    /* SEARCH CARD */
-    .control-selector {
-        position: fixed !important;
-        top: 120px !important;
-        left: 14px !important;
-        width: calc(100vw - 166px) !important;
-        max-width: 520px !important;
-        margin: 0 !important;
-        padding: 12px 13px !important;
-        border-radius: 18px !important;
-        background: #fff !important;
-        box-shadow: 0 5px 18px rgba(0,0,0,.20) !important;
-        z-index: 4000 !important;
-    }
-
-    .control-selector label {
-        display: block !important;
-        margin: 0 0 7px !important;
-        font-size: 14px !important;
-        line-height: 1.2 !important;
-        white-space: nowrap !important;
-    }
-
-    .control-selector select {
-        width: 100% !important;
-        height: 44px !important;
-        padding: 0 10px !important;
-        font-size: 13px !important;
-        border: 2px solid #1e73d8 !important;
-        border-radius: 10px !important;
-        background: #fff !important;
-    }
-
-    /* RIGHT BUTTON STACK */
-    .location-button,
-    .traverse-button,
-    .add-station-button {
-        position: fixed !important;
-        right: 14px !important;
-        width: 130px !important;
-        height: 44px !important;
-        min-height: 44px !important;
-        margin: 0 !important;
-        padding: 0 9px !important;
-        border-radius: 23px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        white-space: nowrap !important;
-        font-size: 12px !important;
-        z-index: 4000 !important;
-    }
-
-    .location-button {
-        top: 120px !important;
-    }
-
-    .traverse-button {
-        top: 174px !important;
-    }
-
-    .add-station-button {
-        top: 228px !important;
-    }
-
-    /* STATION LIST, WHEN SHOWN */
-    .station-list {
-        position: fixed !important;
-        top: 282px !important;
-        right: 14px !important;
-        left: auto !important;
-        width: 220px !important;
-        max-width: calc(100vw - 28px) !important;
-        max-height: 190px !important;
-        margin: 0 !important;
-        z-index: 4000 !important;
-    }
-
-    /* BOTTOM TRAVERSE SHEET */
-    .traverse-panel {
-        position: fixed !important;
-        left: 0 !important;
-        right: 0 !important;
-        bottom: 0 !important;
-        top: auto !important;
-        width: 100vw !important;
-        max-width: 100vw !important;
-        height: 25dvh !important;
-        min-height: 190px !important;
-        max-height: 25dvh !important;
-        margin: 0 !important;
-        padding: 18px 14px 16px !important;
-        overflow-y: auto !important;
-        border-radius: 24px 24px 0 0 !important;
-        background: #fff !important;
-        z-index: 3500 !important;
-        box-shadow: 0 -6px 24px rgba(0,0,0,.20) !important;
-    }
-
-    .traverse-panel h2 {
-        margin: 0 0 5px !important;
-        font-size: 22px !important;
-    }
-
-    .traverse-panel p {
-        margin: 0 0 8px !important;
-        font-size: 14px !important;
-        line-height: 1.35 !important;
-    }
-
-    .traverse-result {
-        margin-bottom: 8px !important;
-        padding: 9px !important;
-        font-size: 12px !important;
-    }
-
-    .clear-traverse-button {
-        min-width: 95px !important;
-        height: 40px !important;
-        min-height: 40px !important;
-        padding: 0 18px !important;
-        border-radius: 21px !important;
-    }
-
-    /* DETAILS BUTTON: fixed inside the bottom sheet area */
-    .details-button {
-        position: fixed !important;
-        right: 14px !important;
-        bottom: 16px !important;
-        width: auto !important;
-        min-width: 105px !important;
-        height: 44px !important;
-        min-height: 44px !important;
-        margin: 0 !important;
-        padding: 0 18px !important;
-        border-radius: 23px !important;
-        z-index: 4500 !important;
-        font-size: 13px !important;
-    }
-
-    /* CONTROL POINT DETAILS CARD */
-    .point-info {
-        position: fixed !important;
-        left: 12px !important;
-        right: 12px !important;
-        bottom: 12px !important;
-        width: auto !important;
-        max-width: none !important;
-        max-height: 78dvh !important;
-        margin: 0 !important;
-        z-index: 6000 !important;
-    }
-
-    .traverse-map-label {
-        width: 150px !important;
-        height: 55px !important;
-    }
-
-    .traverse-bearing,
-    .traverse-distance {
-        font-size: 11px !important;
-    }
-}
-
-@media screen and (max-width: 450px) {
-
-    .map-header {
-        height: 60px !important;
-        min-height: 60px !important;
-        padding: 0 10px !important;
-    }
-
-    .map-header h1 {
-        font-size: 21px !important;
-    }
-
-    .back-button {
-        width: 42px !important;
-        height: 42px !important;
-        flex-basis: 42px !important;
-    }
-
-    #map {
-        top: 60px !important;
-        height: calc(100dvh - 60px) !important;
-    }
-
-    .control-selector {
-        top: 112px !important;
-        left: 10px !important;
-        width: calc(100vw - 145px) !important;
-        padding: 10px 11px !important;
-    }
-
-    .control-selector label {
-        font-size: 13px !important;
-    }
-
-    .control-selector select {
-        height: 42px !important;
-        font-size: 12px !important;
-    }
-
-    .location-button,
-    .traverse-button,
-    .add-station-button {
-        right: 10px !important;
-        width: 125px !important;
-        height: 42px !important;
-        min-height: 42px !important;
-        font-size: 11px !important;
-    }
-
-    .location-button {
-        top: 112px !important;
-    }
-
-    .traverse-button {
-        top: 162px !important;
-    }
-
-    .add-station-button {
-        top: 212px !important;
-    }
-
-    .station-list {
-        top: 262px !important;
-        right: 10px !important;
-    }
-
-    .traverse-panel {
-        height: 25dvh !important;
-        min-height: 175px !important;
-        max-height: 25dvh !important;
-        padding: 14px 12px !important;
-    }
-
-    .details-button {
-        right: 12px !important;
-        bottom: 12px !important;
-        min-width: 96px !important;
-        height: 40px !important;
-        min-height: 40px !important;
-    }
 }
