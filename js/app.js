@@ -154,6 +154,7 @@ async function initMap() {
 
                 zoom: 17,
 
+                 gestureHandling: "greedy",
                 mapTypeControl: true,
 
                 streetViewControl: false,
