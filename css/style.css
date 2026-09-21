@@ -1,1902 +1,1181 @@
-/* =========================================================
-   INTERSURV WEB
-   COMPLETE RESPONSIVE STYLE
-   Light Blue + Green Professional Theme
-   ========================================================= */
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>InterSurv Analytics</title>
+
+    <style>
+
+        /* =========================================
+           CONDITION BY POINT TYPE
+           ========================================= */
+
+        .point-type-chart-container {
+            position: relative;
+            width: 100%;
+            height: 420px;
+        }
 
 
-/* =========================================================
-   GLOBAL
-   ========================================================= */
+        /* =========================================
+           MONUMENT HISTORY ANALYSIS
+           ========================================= */
 
-:root {
-    --navy: #163d73;
-    --blue: #1769d1;
-    --blue-dark: #1259b5;
-    --blue-light: #eaf3ff;
+        .history-summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
 
-    --green: #16a37a;
-    --green-dark: #118263;
-    --green-light: #e9f8f2;
+        .history-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 18px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border-left: 5px solid #1769d1;
+        }
 
-    --red: #ef4444;
-    --red-light: #fff1f1;
+        .history-icon {
+            font-size: 25px;
+        }
 
-    --text: #20364f;
-    --muted: #64748b;
+        .history-label {
+            color: #64748b;
+            font-size: 11px;
+            font-weight: bold;
+        }
 
-    --background: #f4f8fc;
-    --white: #ffffff;
-    --border: #dce6f0;
-
-    --shadow:
-        0 8px 25px rgba(22, 61, 115, 0.12);
-
-    --shadow-large:
-        0 14px 35px rgba(22, 61, 115, 0.16);
-}
-
-
-/* =========================================================
-   RESET
-   ========================================================= */
-
-* {
-    box-sizing: border-box;
-}
-
-html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100%;
-}
-
-body {
-    margin: 0;
-    padding: 0;
-
-    width: 100%;
-    min-height: 100vh;
-
-    background: var(--background);
-
-    color: var(--text);
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    overflow-x: hidden;
-}
-
-button,
-select,
-input {
-    font-family: inherit;
-}
-
-button {
-    -webkit-tap-highlight-color: transparent;
-}
-
-img {
-    max-width: 100%;
-}
+        .history-number {
+            margin-top: 5px;
+            color: #163d73;
+            font-size: 27px;
+            font-weight: bold;
+        }
 
 
-/* =========================================================
-   GENERAL BUTTON
-   ========================================================= */
+        /* =========================================
+           GENERAL
+           ========================================= */
 
-button {
-    cursor: pointer;
-}
+        * {
+            box-sizing: border-box;
+        }
 
-button:disabled {
-    cursor: not-allowed;
-    opacity: 0.65;
-}
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f3f7fc;
+            color: #1e293b;
+        }
 
 
-/* =========================================================
-   HOME / GENERAL HEADER
-   ========================================================= */
+        /* =========================================
+           HEADER
+           ========================================= */
 
-.header {
-    width: 100%;
+        .header {
+            height: 75px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.08);
+        }
 
-    min-height: 74px;
+        .header h1 {
+            margin: 0;
+            color: #163d73;
+            font-size: 25px;
+        }
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+        .back-button {
+            border: none;
+            background: #1769d1;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
-    gap: 20px;
+        .back-button:hover {
+            background: #1256ad;
+        }
 
-    padding: 12px 28px;
-
-    background: var(--white);
-
-    border-bottom:
-        1px solid var(--border);
-
-    box-shadow:
-        0 3px 14px rgba(0, 0, 0, 0.06);
-
-    position: relative;
-
-    z-index: 100;
-}
-
-.header h1 {
-    margin: 0;
-
-    color: var(--navy);
-
-    font-size: 28px;
-
-    font-weight: 800;
-}
+/* =========================================
+   HEADER ACTIONS
+   ========================================= */
 
 .header-actions {
     display: flex;
-
     align-items: center;
-
     gap: 10px;
-
-    flex-wrap: wrap;
 }
 
 
-/* =========================================================
-   BACK BUTTON
-   ========================================================= */
+/* =========================================
+   EXPORT BUTTON
+   ========================================= */
 
-.back-button {
+.export-button {
+
     border: none;
 
-    background: var(--blue);
+    background: #1769d1;
 
     color: white;
 
     padding: 11px 18px;
 
-    border-radius: 12px;
+    border-radius: 8px;
 
     font-size: 14px;
 
-    font-weight: 700;
-
-    box-shadow:
-        0 5px 15px rgba(23, 105, 209, 0.18);
-
-    transition:
-        background 0.2s ease,
-        transform 0.2s ease;
-}
-
-.back-button:hover {
-    background: var(--blue-dark);
-
-    transform:
-        translateY(-1px);
-}
-
-.back-button:active {
-    transform:
-        translateY(0);
-}
-
-
-/* =========================================================
-   EXPORT BUTTON
-   ========================================================= */
-
-.export-button {
-    border: none;
-
-    background: var(--blue);
-
-    color: white;
-
-    padding: 12px 20px;
-
-    border-radius: 10px;
-
-    font-size: 14px;
-
-    font-weight: 700;
+    font-weight: bold;
 
     cursor: pointer;
 
-    box-shadow:
-        0 4px 12px rgba(23, 105, 209, 0.18);
+    transition: 0.2s ease;
 
-    transition:
-        0.2s ease;
 }
+
 
 .export-button:hover {
-    background: var(--blue-dark);
 
-    transform:
-        translateY(-1px);
+    background: #1256ad;
+
+    transform: translateY(-1px);
+
 }
+
 
 .export-button:active {
-    transform:
-        translateY(0);
+
+    transform: translateY(0);
+
 }
 
 
-/* =========================================================
-   MAIN CONTENT
-   ========================================================= */
+.export-button:disabled {
 
-.main {
-    width: 100%;
+    background: #94a3b8;
 
-    max-width: 1400px;
+    cursor: not-allowed;
 
-    margin: 0 auto;
+    transform: none;
 
-    padding: 28px;
-}
-
-.page-intro {
-    margin-bottom: 25px;
-}
-
-.page-intro h2 {
-    margin: 0 0 8px;
-
-    color: var(--navy);
-
-    font-size: 30px;
-}
-
-.page-intro p {
-    margin: 0;
-
-    color: var(--muted);
-
-    font-size: 15px;
-
-    line-height: 1.6;
 }
 
 
-/* =========================================================
-   CARDS
-   ========================================================= */
+@media (max-width: 700px) {
 
-.card {
-    background: var(--white);
+    .header {
 
-    border-radius: 18px;
+        height: auto;
 
-    padding: 22px;
+        min-height: 75px;
 
-    box-shadow: var(--shadow);
+        padding: 12px 15px;
 
-    border:
-        1px solid #edf2f7;
+        gap: 10px;
+
+    }
+
+    .header-actions {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+    .export-button,
+    .back-button {
+
+        font-size: 11px;
+
+        padding: 9px 12px;
+
+    }
+
 }
 
 
-/* =========================================================
-   INTERSURV POLY MAP
-   ========================================================= */
+        /* =========================================
+           MAIN
+           ========================================= */
+
+        .main {
+            max-width: 1450px;
+            margin: auto;
+            padding: 28px;
+        }
+
+        .page-intro {
+            margin-bottom: 25px;
+        }
+
+        .page-intro h2 {
+            margin: 0 0 7px;
+            color: #163d73;
+            font-size: 25px;
+        }
+
+        .page-intro p {
+            margin: 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+
+        /* =========================================
+           SUMMARY CARDS
+           ========================================= */
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.07);
+        }
+
+        .card-title {
+            color: #64748b;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .card-number {
+            margin-top: 8px;
+            color: #163d73;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+
+        /* =========================================
+           CHART SECTION
+           ========================================= */
+
+        .chart-section {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.07);
+            margin-bottom: 25px;
+        }
+
+        .chart-section h2 {
+            margin: 0 0 6px;
+            color: #163d73;
+        }
+
+        .chart-section p {
+            margin: 0 0 20px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 420px;
+        }
+
+
+        /* =========================================
+           MAINTENANCE PRIORITY
+           ========================================= */
+
+        .priority-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 18px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            background: #f8fafc;
+        }
 
+        .priority-item strong {
+            color: #163d73;
+            font-size: 14px;
+        }
 
-/* =========================================================
-   MAP HEADER
-   ========================================================= */
+        .priority-item p {
+            margin: 5px 0 0 !important;
+            color: #64748b;
+            font-size: 12px;
+        }
 
-.map-header {
-    width: 100%;
+        .priority-item span {
+            min-width: 45px;
+            text-align: center;
+            padding: 8px 12px;
+            border-radius: 20px;
+            background: white;
+            color: #163d73;
+            font-weight: bold;
+        }
 
-    min-height: 76px;
+        .priority-high {
+            border-left: 5px solid #dc2626;
+        }
 
-    display: flex;
+        .priority-medium {
+            border-left: 5px solid #eab308;
+        }
+
+        .priority-inspection {
+            border-left: 5px solid #94a3b8;
+        }
+
+        .priority-complete {
+            border-left: 5px solid #2563eb;
+        }
 
-    align-items: center;
+        .priority-good {
+            border-left: 5px solid #16a34a;
+        }
 
-    gap: 15px;
 
-    padding:
-        10px 22px;
+        /* =========================================
+           RESPONSIVE
+           ========================================= */
+
+        @media (max-width: 1100px) {
+
+            .summary {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .history-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .header {
+                padding: 0 15px;
+            }
+
+            .point-type-chart-container {
+                height: 350px;
+            }
+
+            .header h1 {
+                font-size: 18px;
+            }
+
+            .main {
+                padding: 15px;
+            }
+
+            .summary {
+                grid-template-columns: 1fr 1fr;
+            }
+
+        }
+
+        @media (max-width: 450px) {
+
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .history-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .point-type-chart-container {
+                height: 320px;
+            }
+
+        }
+
+
+        /* =========================================
+           CLICKABLE HISTORY CARDS
+           ========================================= */
+
+        .history-clickable {
+            cursor: pointer;
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                border-color 0.2s ease;
+            position: relative;
+        }
+
+        .history-clickable:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 22px rgba(23, 105, 209, 0.16);
+            border-color: #1769d1;
+        }
+
+        .history-clickable:active {
+            transform: translateY(-1px);
+        }
+
+        .history-view-text {
+            margin-top: 7px;
+            font-size: 11px;
+            color: #1769d1;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .history-clickable:hover .history-view-text {
+            opacity: 1;
+        }
+
+
+        /* =========================================
+           HISTORY DETAIL TABLE
+           ========================================= */
+
+        .history-details-section {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.07);
+            margin-bottom: 25px;
+            display: none;
+        }
+
+        .history-details-section.active {
+            display: block;
+        }
+
+        .history-details-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .history-details-title {
+            margin: 0;
+            color: #163d73;
+            font-size: 22px;
+        }
+
+        .history-details-subtitle {
+            margin: 5px 0 0;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .history-close-button {
+            border: none;
+            background: #e8f1ff;
+            color: #1769d1;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .history-close-button:hover {
+            background: #d7e7ff;
+        }
+
+        .history-table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid #dbe5f0;
+            border-radius: 12px;
+        }
+
+        .history-analysis-table {
+            width: 100%;
+            min-width: 700px;
+            border-collapse: collapse;
+        }
+
+        .history-analysis-table th {
+            background: #eef5ff;
+            color: #163d73;
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 12px;
+            white-space: nowrap;
+            border-bottom: 1px solid #dbe5f0;
+        }
+
+        .history-analysis-table td {
+            padding: 14px 16px;
+            color: #334155;
+            font-size: 13px;
+            border-bottom: 1px solid #e2e8f0;
+            white-space: nowrap;
+        }
+
+        .history-analysis-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .history-analysis-table tbody tr:hover {
+            background: #f8fbff;
+        }
+
+        .history-date {
+            font-weight: 600;
+            color: #163d73;
+        }
+
+        .history-empty {
+            text-align: center;
+            padding: 35px;
+            color: #64748b;
+        }
+
+        .history-status-badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .history-status-damage {
+            background: #fff3e8;
+            color: #c2410c;
+        }
+
+        .history-status-replaced {
+            background: #e8e8ff;
+            color: #4338ca;
+        }
+
+        .history-status-critical {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        @media (max-width: 700px) {
+
+            .history-details-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .history-close-button {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <h1>
+        InterSurv Analytics
+    </h1>
+
+    <div class="header-actions">
+
+        <button
+                type="button"
+                id="exportButton"
+                class="export-button"
+        >
+            ⬇ EXPORT DATA
+        </button>
+
+        <button
+                class="back-button"
+                id="backButton"
+        >
+            ← BACK TO DASHBOARD
+        </button>
+
+    </div>
+
+</header>
+<main class="main">
+
+
+    <div class="page-intro">
+
+        <h2>
+            Monument Condition Analysis
+        </h2>
+
+        <p>
+            Overview of current monument conditions
+            recorded in InterSurv.
+        </p>
+
+    </div>
+
+
+    <!-- =========================================
+         SUMMARY CARDS
+         ========================================= -->
+
+    <section class="summary">
+
+        <div class="card">
+            <div class="card-title">TOTAL</div>
+
+            <div
+                    class="card-number"
+                    id="totalPoints"
+            >
+                0
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-title">🟢 GOOD</div>
+
+            <div
+                    class="card-number"
+                    id="goodPoints"
+            >
+                0
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-title">🟡 MINOR DAMAGE</div>
+
+            <div
+                    class="card-number"
+                    id="minorPoints"
+            >
+                0
+            </div>
+        </div>
 
-    background:
-        rgba(255, 255, 255, 0.98);
 
-    border-bottom:
-        1px solid var(--border);
+        <div class="card">
+            <div class="card-title">🟠 DAMAGED</div>
 
-    box-shadow:
-        0 3px 14px rgba(0, 0, 0, 0.08);
+            <div
+                    class="card-number"
+                    id="damagedPoints"
+            >
+                0
+            </div>
+        </div>
 
-    position: relative;
 
-    z-index: 1000;
-}
+        <div class="card">
+            <div class="card-title">🔴 CRITICAL</div>
 
-.map-header h1 {
-    margin: 0;
+            <div
+                    class="card-number"
+                    id="criticalPoints"
+            >
+                0
+            </div>
+        </div>
 
-    color: var(--navy);
 
-    font-size: 29px;
+        <div class="card">
+            <div class="card-title">🔵 REPLACED</div>
 
-    font-weight: 800;
+            <div
+                    class="card-number"
+                    id="replacedPoints"
+            >
+                0
+            </div>
+        </div>
 
-    line-height: 1;
+    </section>
 
-    white-space: nowrap;
-}
 
-.map-header .back-button {
-    width: 50px;
-    height: 50px;
+    <!-- =========================================
+         CONDITION CHART
+         ========================================= -->
 
-    padding: 0;
+    <section class="chart-section">
 
-    flex-shrink: 0;
+        <h2>
+            Monument Condition Distribution
+        </h2>
 
-    display: flex;
+        <p>
+            Current condition of all control points.
+        </p>
 
-    align-items: center;
-    justify-content: center;
+        <div class="chart-container">
+            <canvas id="conditionChart"></canvas>
+        </div>
 
-    border-radius: 50%;
+    </section>
 
-    background: var(--blue);
 
-    color: white;
+    <!-- =========================================
+         MAINTENANCE PRIORITY
+         ========================================= -->
 
-    font-size: 28px;
+    <section class="chart-section">
 
-    line-height: 1;
-}
+        <h2>
+            Maintenance Priority
+        </h2>
 
+        <p>
+            Maintenance and inspection priority based on
+            current monument condition.
+        </p>
 
-/* =========================================================
-   MAP
-   ========================================================= */
+        <div id="maintenancePriority">
 
-#map {
-    width: 100%;
+            <div class="priority-item priority-high">
 
-    height: 58vh;
+                <div>
+                    <strong>
+                        🔴 Critical / Replacement Required
+                    </strong>
 
-    min-height: 430px;
+                    <p>
+                        Immediate attention required.
+                    </p>
+                </div>
 
-    background: #dfe8ef;
+                <span id="criticalPriority">0</span>
 
-    position: relative;
+            </div>
 
-    z-index: 1;
-}
 
+            <div class="priority-item priority-high">
 
-/* =========================================================
-   MY LOCATION BUTTON
-   FLOATING INSIDE MAP
-   ========================================================= */
+                <div>
+                    <strong>🟠 Damaged</strong>
 
-#locationButton {
-    position: absolute;
+                    <p>
+                        Maintenance should be prioritised.
+                    </p>
+                </div>
 
-    z-index: 20;
+                <span id="damagedPriority">0</span>
 
-    right: 20px;
+            </div>
 
-    top: 0;
 
-    transform:
-        translateY(-70px);
+            <div class="priority-item priority-medium">
 
-    min-height: 46px;
+                <div>
+                    <strong>🟡 Minor Damage</strong>
 
-    padding:
-        0 17px;
+                    <p>
+                        Monitor condition and plan maintenance.
+                    </p>
+                </div>
 
-    border: none;
+                <span id="minorPriority">0</span>
 
-    border-radius: 24px;
+            </div>
 
-    background: white;
 
-    color: var(--navy);
+            <div class="priority-item priority-inspection">
 
-    font-size: 14px;
+                <div>
+                    <strong>⚪ Not Inspected</strong>
 
-    font-weight: 800;
+                    <p>
+                        Inspection is required.
+                    </p>
+                </div>
 
-    box-shadow:
-        0 6px 18px rgba(0, 0, 0, 0.18);
+                <span id="inspectionPriority">0</span>
 
-    white-space: nowrap;
-}
+            </div>
 
 
-/* =========================================================
-   TRAVERSE MAIN BUTTON
-   ========================================================= */
+            <div class="priority-item priority-complete">
 
-#traverseButton {
-    display: block;
+                <div>
+                    <strong>🔵 Replaced</strong>
 
-    width: min(
-        calc(100% - 40px),
-        420px
-    );
+                    <p>
+                        Replacement completed.
+                    </p>
+                </div>
 
-    min-height: 56px;
+                <span id="replacedPriority">0</span>
 
-    margin:
-        22px auto 18px;
+            </div>
 
-    padding:
-        0 24px;
 
-    border: none;
+            <div class="priority-item priority-good">
 
-    border-radius: 16px;
+                <div>
+                    <strong>🟢 Good</strong>
 
-    background: var(--green);
+                    <p>
+                        No immediate maintenance required.
+                    </p>
+                </div>
 
-    color: white;
+                <span id="goodPriority">0</span>
 
-    font-size: 17px;
+            </div>
 
-    font-weight: 800;
+        </div>
 
-    letter-spacing: 0.3px;
+    </section>
 
-    box-shadow:
-        0 8px 22px rgba(22, 163, 122, 0.20);
 
-    transition:
-        background 0.2s ease,
-        transform 0.2s ease;
-}
+    <!-- =========================================
+         MONUMENT HISTORY ANALYSIS
+         ========================================= -->
 
-#traverseButton:hover {
-    background: var(--green-dark);
+    <section class="chart-section">
 
-    transform:
-        translateY(-1px);
-}
+        <h2>
+            Monument History Analysis
+        </h2>
 
-#traverseButton:active {
-    transform:
-        translateY(0);
-}
+        <p>
+            Analysis of monument condition changes and
+            maintenance records.
+        </p>
 
 
-/* =========================================================
-   CONTROL POINT SELECTOR
-   IMPORTANT:
-   NORMAL DOCUMENT FLOW
-   NO ABSOLUTE POSITIONING
-   ========================================================= */
+        <div class="history-summary">
 
-.control-selector {
-    position: relative;
 
-    z-index: 30;
+            <div
+                    class="history-card history-clickable"
+                    id="totalHistoryCard"
+                    title="View all monument history records"
+            >
 
-    width:
-        calc(100% - 40px);
+                <span class="history-icon">🔄</span>
 
-    max-width: 900px;
+                <div>
 
-    margin:
-        0 auto 18px;
+                    <div class="history-label">
+                        TOTAL STATUS CHANGES
+                    </div>
 
-    padding: 20px;
+                    <div
+                            class="history-number"
+                            id="totalHistory"
+                    >
+                        0
+                    </div>
 
-    background:
-        var(--white);
+                    <div class="history-view-text">
+                        Click to view records →
+                    </div>
 
-    border:
-        1px solid #e4ebf3;
+                </div>
 
-    border-radius: 20px;
+            </div>
 
-    box-shadow:
-        var(--shadow);
-}
 
-.control-selector label {
-    display: block;
+            <div
+                    class="history-card history-clickable"
+                    id="damageHistoryCard"
+                    title="View damage records"
+            >
 
-    margin:
-        0 0 9px;
+                <span class="history-icon">⚠️</span>
 
-    color: var(--navy);
+                <div>
 
-    font-size: 16px;
+                    <div class="history-label">
+                        DAMAGE RECORDS
+                    </div>
 
-    font-weight: 800;
-}
+                    <div
+                            class="history-number"
+                            id="damageHistory"
+                    >
+                        0
+                    </div>
 
-#controlPointSelect {
-    display: block;
+                    <div class="history-view-text">
+                        Click to view records →
+                    </div>
 
-    width: 100%;
+                </div>
 
-    min-height: 54px;
+            </div>
 
-    padding:
-        0 16px;
 
-    border:
-        2px solid var(--blue);
+            <div
+                    class="history-card history-clickable"
+                    id="replacementHistoryCard"
+                    title="View replacement records"
+            >
 
-    border-radius: 14px;
+                <span class="history-icon">🔧</span>
 
-    background:
-        var(--white);
+                <div>
 
-    color:
-        var(--text);
+                    <div class="history-label">
+                        REPLACEMENTS
+                    </div>
 
-    font-size: 15px;
+                    <div
+                            class="history-number"
+                            id="replacementHistory"
+                    >
+                        0
+                    </div>
 
-    font-weight: 600;
+                    <div class="history-view-text">
+                        Click to view records →
+                    </div>
 
-    outline: none;
+                </div>
 
-    cursor: pointer;
-}
+            </div>
 
-#controlPointSelect:hover {
-    border-color:
-        var(--blue-dark);
-}
 
-#controlPointSelect:focus {
-    border-color:
-        var(--green);
+            <div
+                    class="history-card history-clickable"
+                    id="pointsWithHistoryCard"
+                    title="View points with history"
+            >
 
-    box-shadow:
-        0 0 0 3px
-        rgba(22, 163, 122, 0.12);
-}
+                <span class="history-icon">📋</span>
 
+                <div>
 
-/* =========================================================
-   TRAVERSE PANEL
-   NORMAL DOCUMENT FLOW
-   NEVER OVERLAPS SELECTOR
-   ========================================================= */
+                    <div class="history-label">
+                        POINTS WITH HISTORY
+                    </div>
 
-#traversePanel {
-    position: relative;
+                    <div
+                            class="history-number"
+                            id="pointsWithHistory"
+                    >
+                        0
+                    </div>
 
-    z-index: 10;
+                    <div class="history-view-text">
+                        Click to view records →
+                    </div>
 
-    width:
-        calc(100% - 40px);
+                </div>
 
-    max-width: 1100px;
+            </div>
 
-    margin:
-        0 auto 20px;
+        </div>
 
-    padding: 26px;
+    </section>
 
-    background:
-        var(--white);
 
-    border:
-        1px solid #e4ebf3;
+    <!-- =========================================
+         HISTORY DETAIL TABLE
+         ========================================= -->
 
-    border-radius: 22px;
+    <section
+            class="history-details-section"
+            id="historyDetailsSection"
+    >
 
-    box-shadow:
-        var(--shadow-large);
-}
+        <div class="history-details-header">
 
-#traversePanel h2 {
-    margin:
-        0 0 12px;
+            <div>
 
-    color:
-        var(--navy);
+                <h2
+                        class="history-details-title"
+                        id="historyDetailsTitle"
+                >
+                    History Records
+                </h2>
 
-    font-size: 26px;
+                <p
+                        class="history-details-subtitle"
+                        id="historyDetailsSubtitle"
+                >
+                    Monument history records.
+                </p>
 
-    font-weight: 800;
-}
+            </div>
 
-#traverseStatus {
-    margin:
-        0 0 18px;
+            <button
+                    type="button"
+                    class="history-close-button"
+                    id="closeHistoryDetails"
+            >
+                ✕ CLOSE
+            </button>
 
-    color:
-        var(--muted);
+        </div>
 
-    font-size: 15px;
+        <div id="historyDetailsContent">
 
-    line-height: 1.6;
-}
+            <div class="history-empty">
+                Select a history category to view records.
+            </div>
 
+        </div>
 
-/* =========================================================
-   TRAVERSE RESULTS
-   ========================================================= */
+    </section>
 
-#traverseResults {
-    width: 100%;
 
-    display: flex;
+    <!-- =========================================
+         CONDITION BY POINT TYPE
+         ========================================= -->
 
-    flex-direction: column;
+    <section class="chart-section">
 
-    gap: 10px;
-}
+        <h2>
+            Condition by Point Type
+        </h2>
 
-#traverseResults > div,
-#traverseResults > article,
-#traverseResults > section {
-    width: 100%;
+        <p>
+            Distribution of monument conditions according
+            to control point type.
+        </p>
 
-    padding: 15px 17px;
+        <div class="point-type-chart-container">
+            <canvas id="pointTypeChart"></canvas>
+        </div>
 
-    border-radius: 15px;
+    </section>
 
-    background:
-        var(--blue-light);
+</main>
 
-    border:
-        1px solid #d8e8fa;
 
-    color:
-        var(--text);
+<script type="module">
 
-    line-height: 1.55;
+    import {
+    db,
+    auth
+} from "./js/firebase-config.js";
 
-    overflow-wrap:
-        anywhere;
-}
+import {
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
+import {
+    collection,
+    getDocs
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
-/* =========================================================
-   CLEAR TRAVERSE
-   ========================================================= */
+    /* =========================================
+   EXPORT DATA
+========================================= */
 
-#clearTraverseButton {
-    display: block;
+let analyticsControlPoints = [];
 
-    width: 100%;
 
-    min-height: 50px;
+document.getElementById(
+    "exportButton"
+).addEventListener(
+    "click",
+    exportAnalyticsData
+);
 
-    margin-top: 18px;
 
-    padding:
-        0 20px;
+/* =========================================
+   EXPORT ANALYTICS DATA TO EXCEL
+========================================= */
 
-    border: none;
+async function exportAnalyticsData() {
 
-    border-radius: 14px;
-
-    background:
-        var(--red-light);
-
-    color:
-        var(--red);
-
-    font-size: 15px;
-
-    font-weight: 800;
-
-    cursor: pointer;
-
-    transition:
-        background 0.2s ease;
-}
-
-#clearTraverseButton:hover {
-    background:
-        #ffe1e1;
-}
-
-
-/* =========================================================
-   DETAILS BUTTON
-   ========================================================= */
-
-#detailsButton {
-    display: block;
-
-    width:
-        calc(100% - 40px);
-
-    max-width: 900px;
-
-    min-height: 58px;
-
-    margin:
-        20px auto;
-
-    padding:
-        0 24px;
-
-    border: none;
-
-    border-radius: 17px;
-
-    background:
-        var(--blue);
-
-    color:
-        white;
-
-    font-size: 18px;
-
-    font-weight: 800;
-
-    letter-spacing: 0.2px;
-
-    box-shadow:
-        0 8px 22px
-        rgba(23, 105, 209, 0.20);
-
-    transition:
-        background 0.2s ease,
-        transform 0.2s ease;
-}
-
-#detailsButton:hover {
-    background:
-        var(--blue-dark);
-
-    transform:
-        translateY(-1px);
-}
-
-
-/* =========================================================
-   POINT INFORMATION
-   ========================================================= */
-
-#pointInfo,
-.point-info {
-    position: relative;
-
-    z-index: 50;
-
-    width:
-        calc(100% - 40px);
-
-    max-width: 900px;
-
-    margin:
-        0 auto 25px;
-
-    padding: 22px;
-
-    background:
-        var(--white);
-
-    border:
-        1px solid #e4ebf3;
-
-    border-radius: 20px;
-
-    box-shadow:
-        var(--shadow);
-
-    color:
-        var(--text);
-
-    overflow-wrap:
-        anywhere;
-}
-
-
-/* =========================================================
-   POINT INFO TYPOGRAPHY
-   ========================================================= */
-
-#pointInfo h2,
-.point-info h2 {
-    margin:
-        0 0 12px;
-
-    color:
-        var(--navy);
-
-    font-size: 24px;
-
-    font-weight: 800;
-}
-
-#pointInfo p,
-.point-info p {
-    margin:
-        7px 0;
-
-    font-size: 14px;
-
-    line-height: 1.55;
-}
-
-
-/* =========================================================
-   CONTROL POINT PHOTO
-   ========================================================= */
-
-.control-point-photo {
-    display: block;
-
-    width: 100%;
-
-    max-height: 350px;
-
-    object-fit: cover;
-
-    border-radius: 15px;
-
-    margin:
-        14px 0 18px;
-}
-
-.no-photo {
-    width: 100%;
-
-    min-height: 150px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    background:
-        #eef3f8;
-
-    border-radius: 15px;
-
-    color:
-        var(--muted);
-
-    font-size: 14px;
-}
-
-
-/* =========================================================
-   NAVIGATE BUTTON
-   ========================================================= */
-
-.navigate-button {
-    width: 100%;
-
-    min-height: 50px;
-
-    margin-top: 15px;
-
-    border: none;
-
-    border-radius: 13px;
-
-    background:
-        var(--green);
-
-    color: white;
-
-    font-size: 15px;
-
-    font-weight: 800;
-
-    cursor: pointer;
-}
-
-.navigate-button:hover {
-    background:
-        var(--green-dark);
-}
-
-
-/* =========================================================
-   CLOSE DETAILS
-   ========================================================= */
-
-.close-details {
-    position: absolute;
-
-    top: 12px;
-
-    right: 12px;
-
-    width: 36px;
-
-    height: 36px;
-
-    border: none;
-
-    border-radius: 50%;
-
-    background:
-        var(--blue-light);
-
-    color:
-        var(--navy);
-
-    font-size: 18px;
-
-    font-weight: 800;
-}
-
-
-/* =========================================================
-   TRAVERSE MAP LABELS
-   ========================================================= */
-
-.traverse-map-label {
-    width: 160px;
-
-    height: 58px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    position: relative;
-
-    text-align: center;
-}
-
-.traverse-bearing {
-    position: absolute;
-
-    left: 50%;
-
-    top: 4px;
-
-    transform:
-        translateX(-50%);
-
-    color: #222;
-
-    font-size: 14px;
-
-    font-weight: 700;
-
-    white-space: nowrap;
-
-    text-shadow:
-        0 1px 3px rgba(255,255,255,0.95),
-        1px 0 3px rgba(255,255,255,0.95),
-        -1px 0 3px rgba(255,255,255,0.95),
-        0 -1px 3px rgba(255,255,255,0.95);
-}
-
-.traverse-distance {
-    position: absolute;
-
-    left: 50%;
-
-    top: 34px;
-
-    transform:
-        translateX(-50%);
-
-    color: #222;
-
-    font-size: 14px;
-
-    font-weight: 600;
-
-    white-space: nowrap;
-
-    text-shadow:
-        0 1px 3px rgba(255,255,255,0.95),
-        1px 0 3px rgba(255,255,255,0.95),
-        -1px 0 3px rgba(255,255,255,0.95),
-        0 -1px 3px rgba(255,255,255,0.95);
-}
-
-
-/* =========================================================
-   GALLERY
-   ========================================================= */
-
-.gallery-container {
-    width: 100%;
-
-    max-width: 1200px;
-
-    margin: 0 auto;
-
-    padding: 25px;
-}
-
-.gallery-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(
-            auto-fit,
-            minmax(220px, 1fr)
+    const exportButton =
+        document.getElementById(
+            "exportButton"
         );
 
-    gap: 20px;
-}
+    try {
 
-.gallery-card {
-    background:
-        white;
+        exportButton.disabled = true;
 
-    border-radius: 18px;
+        exportButton.textContent =
+            "⏳ EXPORTING...";
 
-    overflow: hidden;
 
-    box-shadow:
-        var(--shadow);
+        /*
+         * Get all control points
+         */
 
-    border:
-        1px solid #e7edf4;
-}
-
-.gallery-card img {
-    display: block;
-
-    width: 100%;
-
-    height: 210px;
-
-    object-fit: cover;
-}
-
-.gallery-card-content {
-    padding: 16px;
-}
-
-.gallery-card-title {
-    margin: 0;
-
-    color:
-        var(--navy);
-
-    font-size: 17px;
-
-    font-weight: 800;
-}
-
-
-/* =========================================================
-   HISTORY
-   ========================================================= */
-
-.history-details-section {
-    background:
-        white;
-
-    border-radius:
-        18px;
-
-    padding:
-        25px;
-
-    box-shadow:
-        var(--shadow);
-
-    margin-bottom:
-        25px;
-
-    display:
-        none;
-}
-
-.history-details-section.active {
-    display:
-        block;
-}
-
-.history-details-header {
-    display:
-        flex;
-
-    justify-content:
-        space-between;
-
-    align-items:
-        center;
-
-    gap:
-        15px;
-
-    margin-bottom:
-        20px;
-}
-
-.history-details-title {
-    margin:
-        0;
-
-    color:
-        var(--navy);
-
-    font-size:
-        22px;
-}
-
-.history-details-subtitle {
-    margin:
-        5px 0 0;
-
-    color:
-        var(--muted);
-
-    font-size:
-        13px;
-}
-
-.history-close-button {
-    border:
-        none;
-
-    background:
-        var(--blue-light);
-
-    color:
-        var(--blue);
-
-    padding:
-        10px 16px;
-
-    border-radius:
-        8px;
-
-    font-weight:
-        bold;
-
-    cursor:
-        pointer;
-}
-
-.history-close-button:hover {
-    background:
-        #d7e7ff;
-}
-
-
-/* =========================================================
-   HISTORY TABLE
-   ========================================================= */
-
-.history-table-wrapper {
-    width:
-        100%;
-
-    overflow-x:
-        auto;
-
-    border:
-        1px solid var(--border);
-
-    border-radius:
-        12px;
-}
-
-.history-analysis-table {
-    width:
-        100%;
-
-    min-width:
-        700px;
-
-    border-collapse:
-        collapse;
-}
-
-.history-analysis-table th {
-    background:
-        #eef5ff;
-
-    color:
-        var(--navy);
-
-    padding:
-        14px 16px;
-
-    text-align:
-        left;
-
-    font-size:
-        12px;
-
-    white-space:
-        nowrap;
-
-    border-bottom:
-        1px solid var(--border);
-}
-
-.history-analysis-table td {
-    padding:
-        14px 16px;
-
-    color:
-        #334155;
-
-    font-size:
-        13px;
-
-    border-bottom:
-        1px solid #e2e8f0;
-
-    white-space:
-        nowrap;
-}
-
-.history-analysis-table tr:last-child td {
-    border-bottom:
-        none;
-}
-
-.history-analysis-table tbody tr:hover {
-    background:
-        #f8fbff;
-}
-
-.history-date {
-    font-weight:
-        600;
-
-    color:
-        var(--navy);
-}
-
-.history-empty {
-    text-align:
-        center;
-
-    padding:
-        35px;
-
-    color:
-        var(--muted);
-}
-
-.history-status-badge {
-    display:
-        inline-block;
-
-    padding:
-        5px 9px;
-
-    border-radius:
-        15px;
-
-    font-size:
-        11px;
-
-    font-weight:
-        bold;
-}
-
-.history-status-damage {
-    background:
-        #fff3e8;
-
-    color:
-        #c2410c;
-}
-
-.history-status-replaced {
-    background:
-        #e8e8ff;
-
-    color:
-        #4338ca;
-}
-
-.history-status-critical {
-    background:
-        #fee2e2;
-
-    color:
-        #b91c1c;
-}
-
-
-/* =========================================================
-   DASHBOARD SUMMARY
-   ========================================================= */
-
-.summary {
-    display:
-        grid;
-
-    grid-template-columns:
-        repeat(
-            auto-fit,
-            minmax(180px, 1fr)
-        );
-
-    gap:
-        18px;
-}
-
-.card-title {
-    color:
-        var(--muted);
-
-    font-size:
-        13px;
-
-    font-weight:
-        800;
-
-    letter-spacing:
-        0.5px;
-}
-
-.card-number {
-    margin-top:
-        8px;
-
-    color:
-        var(--navy);
-
-    font-size:
-        32px;
-
-    font-weight:
-        800;
-}
-
-
-/* =========================================================
-   RESPONSIVE — TABLET
-   ========================================================= */
-
-@media (min-width: 601px) {
-
-    #map {
-        height:
-            55vh;
-
-        min-height:
-            450px;
-    }
-
-    .control-selector {
-        width:
-            calc(100% - 60px);
-
-        padding:
-            22px;
-    }
-
-    #traversePanel {
-        width:
-            calc(100% - 60px);
-
-        padding:
-            24px;
-    }
-
-    #detailsButton,
-    #pointInfo {
-        width:
-            calc(100% - 60px);
-    }
-}
-
-
-/* =========================================================
-   RESPONSIVE — DESKTOP
-   ========================================================= */
-
-@media (min-width: 1025px) {
-
-    .map-header {
-        padding:
-            10px 30px;
-    }
-
-    .map-header h1 {
-        font-size:
-            30px;
-    }
-
-    #map {
-        height:
-            62vh;
-
-        min-height:
-            520px;
-    }
-
-    /*
-       Location button sits visually
-       near the bottom-right of the map.
-    */
-
-    #locationButton {
-        top:
-            calc(
-                76px +
-                62vh -
-                75px
-            );
-
-        right:
-            25px;
-
-        transform:
-            none;
-    }
-
-    #traverseButton {
-        width:
-            360px;
-    }
-
-    .control-selector {
-        max-width:
-            1000px;
-    }
-
-    #traversePanel {
-        max-width:
-            1100px;
-    }
-
-    #detailsButton,
-    #pointInfo {
-        max-width:
-            1000px;
-    }
-}
-
-
-/* =========================================================
-   RESPONSIVE — MOBILE
-   ========================================================= */
-
-@media (max-width: 600px) {
-
-    body {
-        overflow-x:
-            hidden;
-    }
-
-
-    /* -----------------------------------------
-       HEADER
-       ----------------------------------------- */
-
-    .map-header {
-        min-height:
-            64px;
-
-        height:
-            64px;
-
-        padding:
-            8px 12px;
-
-        gap:
-            10px;
-    }
-
-    .map-header h1 {
-        font-size:
-            23px;
-
-        overflow:
-            hidden;
-
-        text-overflow:
-            ellipsis;
-    }
-
-    .map-header .back-button {
-        width:
-            44px;
-
-        height:
-            44px;
-
-        font-size:
-            24px;
-    }
-
-
-    /* -----------------------------------------
-       MAP
-       ----------------------------------------- */
-
-    #map {
-        width:
-            100%;
-
-        height:
-            48vh;
-
-        min-height:
-            330px;
-    }
-
-
-    /* -----------------------------------------
-       LOCATION
-       ----------------------------------------- */
-
-    #locationButton {
-        right:
-            12px;
-
-        top:
-            64px;
-
-        transform:
-            translateY(
-                calc(
-                    48vh - 58px
+        const controlPointsSnapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "control_points"
                 )
             );
 
-        min-height:
-            44px;
 
-        padding:
-            0 14px;
+        const controlPoints =
+            controlPointsSnapshot.docs.map(
+                function (document) {
 
-        font-size:
-            13px;
-    }
+                    return {
 
+                        id:
+                            document.id,
 
-    /* -----------------------------------------
-       TRAVERSE BUTTON
-       ----------------------------------------- */
+                        ...document.data()
 
-    #traverseButton {
-        width:
-            calc(100% - 24px);
+                    };
 
-        min-height:
-            52px;
-
-        margin:
-            14px auto;
-
-        border-radius:
-            15px;
-
-        font-size:
-            15px;
-    }
-
-
-    /* -----------------------------------------
-       SELECTOR
-       ----------------------------------------- */
-
-    .control-selector {
-        width:
-            calc(100% - 24px);
-
-        margin:
-            0 auto 14px;
-
-        padding:
-            16px;
-
-        border-radius:
-            18px;
-    }
-
-    .control-selector label {
-        margin-bottom:
-            8px;
-
-        font-size:
-            15px;
-    }
-
-    #controlPointSelect {
-        min-height:
-            50px;
-
-        font-size:
-            14px;
-
-        border-radius:
-            12px;
-    }
-
-
-    /* -----------------------------------------
-       TRAVERSE PANEL
-       ----------------------------------------- */
-
-    #traversePanel {
-        width:
-            calc(100% - 24px);
-
-        margin:
-            0 auto 16px;
-
-        padding:
-            20px;
-
-        border-radius:
-            20px;
-    }
-
-    #traversePanel h2 {
-        font-size:
-            23px;
-    }
-
-    #traverseStatus {
-        font-size:
-            13px;
-    }
-
-
-    /* -----------------------------------------
-       DETAILS
-       ----------------------------------------- */
-
-    #detailsButton {
-        width:
-            calc(100% - 24px);
-
-        min-height:
-            54px;
-
-        margin:
-            14px auto;
-
-        border-radius:
-            15px;
-
-        font-size:
-            17px;
-    }
-
-
-    /* -----------------------------------------
-       POINT INFO
-       ----------------------------------------- */
-
-    #pointInfo,
-    .point-info {
-        width:
-            calc(100% - 24px);
-
-        margin:
-            0 auto 18px;
-
-        padding:
-            18px;
-
-        border-radius:
-            18px;
-    }
-
-    #pointInfo h2,
-    .point-info h2 {
-        font-size:
-            21px;
-    }
-
-
-    /* -----------------------------------------
-       PHOTO
-       ----------------------------------------- */
-
-    .control-point-photo {
-        height:
-            210px;
-
-        border-radius:
-            13px;
-    }
-
-
-    /* -----------------------------------------
-       HISTORY
-       ----------------------------------------- */
-
-    .history-details-section {
-        padding:
-            18px;
-
-        border-radius:
-            16px;
-    }
-
-    .history-details-header {
-        flex-direction:
-            column;
-
-        align-items:
-            stretch;
-    }
-
-    .history-close-button {
-        width:
-            100%;
-    }
-
-
-    /* -----------------------------------------
-       MAIN
-       ----------------------------------------- */
-
-    .main {
-        padding:
-            18px 14px;
-    }
-
-    .page-intro h2 {
-        font-size:
-            24px;
-    }
-
-    .summary {
-        grid-template-columns:
-            1fr 1fr;
-
-        gap:
-            12px;
-    }
-
-    .card {
-        padding:
-            16px;
-    }
-
-    .card-number {
-        font-size:
-            26px;
-    }
-}
-
-
-/* =========================================================
-   VERY SMALL PHONES
-   ========================================================= */
-
-@media (max-width: 380px) {
-
-    .map-header {
-        min-height:
-            60px;
-
-        height:
-            60px;
-
-        padding:
-            7px 10px;
-    }
-
-    .map-header .back-button {
-        width:
-            42px;
-
-        height:
-            42px;
-
-        font-size:
-            22px;
-    }
-
-    .map-header h1 {
-        font-size:
-            21px;
-    }
-
-    #map {
-        height:
-            46vh;
-
-        min-height:
-            300px;
-    }
-
-    #locationButton {
-        top:
-            60px;
-
-        transform:
-            translateY(
-                calc(
-                    46vh - 56px
-                )
+                }
             );
 
-        font-size:
-            12px;
-    }
 
-    #traverseButton {
-        min-height:
-            50px;
+        /*
+         * =====================================
+         * SHEET 1
+         * CONTROL POINTS
+         * =====================================
+         */
 
-        font-size:
-            14px;
-    }
+        const controlPointRows =
+            controlPoints.map(
+                function (point) {
 
-    .control-selector {
-        padding:
-            14px;
-    }
+                    return {
 
-    .control-selector label {
-        font-size:
-            14px;
-    }
+                        "Point ID":
+                            point.pointCode || "",
 
-    #controlPointSelect {
-        min-height:
-            47px;
+                        "Point Type":
+                            normalizePointType(
+                                point.pointType
+                            ),
 
-        font-size:
-            13px;
-    }
+                        "Status":
+                            point.monumentStatus ||
+                            "Not Inspected",
 
-    #traversePanel {
-        padding:
-            17px;
-    }
-
-    #traversePanel h2 {
-        font-size:
-            21px;
-    }
-
-    #detailsButton {
-        min-height:
-            50px;
-
-        font-size:
-            16px;
-    }
-}
-
-
-/* =========================================================
-   TOUCH DEVICES
-   ========================================================= */
-
-@media (hover: none) and (pointer: coarse) {
-
-    button,
-    select {
-        -webkit-tap-highlight-color:
-            transparent;
-    }
-
-    #controlPointSelect {
-        min-height:
-            50px;
-    }
-
-    #traverseButton,
-    #detailsButton,
-    #clearTraverseButton {
-        min-height:
-            50px;
-    }
-}
-
-
-/* =========================================================
-   END OF INTERSURV STYLE
-   ========================================================= */
+                        "Observation
