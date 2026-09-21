@@ -1325,15 +1325,11 @@ h1 {
        FIXED HEIGHT SO CONTENT BELOW IS VISIBLE
        ===================================================== */
 
-    #map {
-
-        height: 48vh;
-
-        min-height: 330px;
-
-        width: 100%;
-    }
-
+#map {
+    height: calc(100vh - 64px);
+    min-height: 500px;
+    width: 100%;
+}
 
     /* =====================================================
        MOBILE CONTROL POINT SELECTOR
@@ -1836,12 +1832,10 @@ h1 {
     }
 
 
-    #map {
-
-        height: 44vh;
-
-        min-height: 300px;
-    }
+   #map {
+       height: calc(100vh - 60px);
+       min-height: 500px;
+   }
 
 
     /* =====================================================
