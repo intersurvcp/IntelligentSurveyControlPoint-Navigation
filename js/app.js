@@ -804,71 +804,49 @@ async function initMap() {
     // PHOTO GALLERY HTML
     // ========================================================
 
-    function createPhotoGallery(
-        point
-    ) {
+    function createPhotoGallery(point) {
 
-        const urls =
-            getPhotoUrls(
-                point
-            );
+        const urls = getPhotoUrls(point);
 
-
-        if (
-            urls.length === 0
-        ) {
-
+        if (urls.length === 0) {
             return `
                 <div class="no-photo">
                     Photo not available
                 </div>
             `;
-
         }
-
 
         const galleryId =
             "gallery_" +
-            String(
-                point.id
-            ).replace(
+            String(point.id).replace(
                 /[^a-zA-Z0-9_-]/g,
                 ""
             );
 
+        let slides = "";
 
-        let slides =
-            "";
+        urls.forEach(function (url, index) {
 
+            slides += `
+                <div
+                    class="monument-gallery-slide"
+                    data-index="${index}"
+                    style="
+                        display:${index === 0 ? "flex" : "none"};
+                    "
+                >
 
-        urls.forEach(
-            function (
-                url,
-                index
-            ) {
+                    <img
+                        src="${escapeHTML(url)}"
+                        class="control-point-photo"
+                        alt="${escapeHTML(point.name)}"
+                        data-photo-url="${escapeHTML(url)}"
+                    >
 
-                slides +=
-                    `
-                        <div
-                            class="monument-gallery-slide"
-                            data-index="${index}"
-                            style="
-                                display:${index === 0 ? "flex" : "none"};
-                            "
-                        >
+                </div>
+            `;
 
-                            <img
-                                src="${escapeHTML(url)}"
-                                class="control-point-photo"
-                                alt="${escapeHTML(point.name)}"
-                            >
-
-                        </div>
-                    `;
-
-            }
-        );
-
+        });
 
         return `
             <div
@@ -910,28 +888,23 @@ async function initMap() {
 
                                 <div class="monument-gallery-dots">
 
-                                    ${urls
-                                        .map(
-                                            function (
-                                                _,
-                                                index
-                                            ) {
+                                    ${urls.map(
+                                        function (_, index) {
 
-                                                return `
-                                                    <button
-                                                        type="button"
-                                                        class="monument-gallery-dot ${
-                                                            index === 0
-                                                                ? "active"
-                                                                : ""
-                                                        }"
-                                                        data-index="${index}"
-                                                    ></button>
-                                                `;
+                                            return `
+                                                <button
+                                                    type="button"
+                                                    class="monument-gallery-dot ${
+                                                        index === 0
+                                                            ? "active"
+                                                            : ""
+                                                    }"
+                                                    data-index="${index}"
+                                                ></button>
+                                            `;
 
-                                            }
-                                        )
-                                        .join("")}
+                                        }
+                                    ).join("")}
 
                                 </div>
 
@@ -946,209 +919,372 @@ async function initMap() {
 
             </div>
         `;
-
     }
 
 
-    // ========================================================
-    // SETUP PHOTO GALLERY
-    // ========================================================
+   // ========================================================
+   // SETUP PHOTO GALLERY
+   // ========================================================
 
-    function setupPhotoGallery(
-        container
-    ) {
+   function setupPhotoGallery(container) {
 
-        const gallery =
-            container.querySelector(
-                ".monument-gallery"
-            );
+       const gallery =
+           container.querySelector(
+               ".monument-gallery"
+           );
 
+       if (!gallery) {
+           return;
+       }
 
-        if (!gallery) {
-            return;
-        }
+       const slides =
+           gallery.querySelectorAll(
+               ".monument-gallery-slide"
+           );
 
+       const dots =
+           gallery.querySelectorAll(
+               ".monument-gallery-dot"
+           );
 
-        const slides =
-            gallery.querySelectorAll(
-                ".monument-gallery-slide"
-            );
+       const counter =
+           gallery.querySelector(
+               ".monument-gallery-counter"
+           );
 
 
-        const dots =
-            gallery.querySelectorAll(
-                ".monument-gallery-dot"
-            );
+       // ====================================================
+       // PHOTO CLICK → OPEN LARGE
+       // ====================================================
 
+       const photos =
+           gallery.querySelectorAll(
+               ".control-point-photo"
+           );
 
-        const counter =
-            gallery.querySelector(
-                ".monument-gallery-counter"
-            );
 
+       photos.forEach(function (photo) {
 
-        function showPhoto(
-            index
-        ) {
+           photo.addEventListener(
+               "click",
+               function (event) {
 
-            if (
-                slides.length === 0
-            ) {
-                return;
-            }
+                   event.stopPropagation();
 
+                   const imageUrl =
+                       photo.getAttribute(
+                           "src"
+                       );
 
-            if (
-                index < 0
-            ) {
+                   if (imageUrl) {
 
-                index =
-                    slides.length - 1;
+                       openPhotoLightbox(
+                           imageUrl
+                       );
 
-            }
+                   }
 
+               }
+           );
 
-            if (
-                index >=
-                slides.length
-            ) {
+       });
 
-                index =
-                    0;
 
-            }
+       // ====================================================
+       // SHOW PHOTO
+       // ====================================================
 
+       function showPhoto(index) {
 
-            slides.forEach(
-                function (
-                    slide,
-                    slideIndex
-                ) {
+           if (slides.length === 0) {
+               return;
+           }
 
-                    slide.style.display =
-                        slideIndex === index
-                            ? "flex"
-                            : "none";
+           if (index < 0) {
+               index =
+                   slides.length - 1;
+           }
 
-                }
-            );
+           if (
+               index >=
+               slides.length
+           ) {
+               index = 0;
+           }
 
 
-            dots.forEach(
-                function (
-                    dot,
-                    dotIndex
-                ) {
+           slides.forEach(
+               function (
+                   slide,
+                   slideIndex
+               ) {
 
-                    dot.classList.toggle(
-                        "active",
-                        dotIndex === index
-                    );
+                   slide.style.display =
+                       slideIndex === index
+                           ? "flex"
+                           : "none";
 
-                }
-            );
+               }
+           );
 
 
-            if (counter) {
+           dots.forEach(
+               function (
+                   dot,
+                   dotIndex
+               ) {
 
-                counter.textContent =
-                    (
-                        index + 1
-                    ) +
-                    " / " +
-                    slides.length;
+                   dot.classList.toggle(
+                       "active",
+                       dotIndex === index
+                   );
 
-            }
+               }
+           );
 
 
-            gallery.dataset.current =
-                String(index);
+           if (counter) {
 
-        }
+               counter.textContent =
+                   (
+                       index + 1
+                   ) +
+                   " / " +
+                   slides.length;
 
+           }
 
-        const previousButton =
-            gallery.querySelector(
-                ".monument-gallery-prev"
-            );
 
+           gallery.dataset.current =
+               String(index);
 
-        const nextButton =
-            gallery.querySelector(
-                ".monument-gallery-next"
-            );
+       }
 
 
-        if (previousButton) {
+       // ====================================================
+       // PREVIOUS
+       // ====================================================
 
-            previousButton.addEventListener(
-                "click",
-                function () {
+       const previousButton =
+           gallery.querySelector(
+               ".monument-gallery-prev"
+           );
 
-                    const current =
-                        Number(
-                            gallery.dataset.current ||
-                            0
-                        );
+       if (previousButton) {
 
+           previousButton.addEventListener(
+               "click",
+               function () {
 
-                    showPhoto(
-                        current - 1
-                    );
+                   const current =
+                       Number(
+                           gallery.dataset.current ||
+                           0
+                       );
 
-                }
-            );
+                   showPhoto(
+                       current - 1
+                   );
 
-        }
+               }
+           );
 
+       }
 
-        if (nextButton) {
 
-            nextButton.addEventListener(
-                "click",
-                function () {
+       // ====================================================
+       // NEXT
+       // ====================================================
 
-                    const current =
-                        Number(
-                            gallery.dataset.current ||
-                            0
-                        );
+       const nextButton =
+           gallery.querySelector(
+               ".monument-gallery-next"
+           );
 
+       if (nextButton) {
 
-                    showPhoto(
-                        current + 1
-                    );
+           nextButton.addEventListener(
+               "click",
+               function () {
 
-                }
-            );
+                   const current =
+                       Number(
+                           gallery.dataset.current ||
+                           0
+                       );
 
-        }
+                   showPhoto(
+                       current + 1
+                   );
 
+               }
+           );
 
-        dots.forEach(
-            function (
-                dot
-            ) {
+       }
 
-                dot.addEventListener(
-                    "click",
-                    function () {
 
-                        showPhoto(
-                            Number(
-                                dot.dataset.index
-                            )
-                        );
+       // ====================================================
+       // DOTS
+       // ====================================================
 
-                    }
-                );
+       dots.forEach(
+           function (dot) {
 
-            }
-        );
+               dot.addEventListener(
+                   "click",
+                   function () {
 
-    }
+                       showPhoto(
+                           Number(
+                               dot.dataset.index
+                           )
+                       );
 
+                   }
+               );
 
+           }
+       );
+
+   }
+
+// ========================================================
+ // PHOTO LIGHTBOX
+ // ========================================================
+
+ function openPhotoLightbox(imageUrl) {
+
+     let lightbox =
+         document.getElementById(
+             "photoLightbox"
+         );
+
+
+     // Create lightbox
+     if (!lightbox) {
+
+         lightbox =
+             document.createElement(
+                 "div"
+             );
+
+         lightbox.id =
+             "photoLightbox";
+
+         lightbox.className =
+             "photo-lightbox";
+
+
+         lightbox.innerHTML = `
+             <button
+                 type="button"
+                 class="photo-lightbox-close"
+                 id="photoLightboxClose"
+             >
+                 ×
+             </button>
+
+             <img
+                 id="lightboxImage"
+                 src=""
+                 alt="Large Control Point Photo"
+             >
+         `;
+
+
+         document.body.appendChild(
+             lightbox
+         );
+
+
+         // CLOSE BUTTON
+         document
+             .getElementById(
+                 "photoLightboxClose"
+             )
+             .addEventListener(
+                 "click",
+                 function () {
+
+                     closePhotoLightbox();
+
+                 }
+             );
+
+
+         // CLICK OUTSIDE PHOTO
+         lightbox.addEventListener(
+             "click",
+             function (event) {
+
+                 if (
+                     event.target ===
+                     lightbox
+                 ) {
+
+                     closePhotoLightbox();
+
+                 }
+
+             }
+         );
+
+     }
+
+
+     const image =
+         document.getElementById(
+             "lightboxImage"
+         );
+
+
+     if (!image) {
+         return;
+     }
+
+
+     image.src =
+         imageUrl;
+
+
+     lightbox.classList.add(
+         "active"
+     );
+
+
+     // Prevent page behind it from scrolling
+     document.body.style.overflow =
+         "hidden";
+
+ }
+
+
+ // ========================================================
+ // CLOSE PHOTO LIGHTBOX
+ // ========================================================
+
+ function closePhotoLightbox() {
+
+     const lightbox =
+         document.getElementById(
+             "photoLightbox"
+         );
+
+
+     if (!lightbox) {
+         return;
+     }
+
+
+     lightbox.classList.remove(
+         "active"
+     );
+
+
+     document.body.style.overflow =
+         "";
+
+ }
     // ========================================================
     // SHOW CONTROL POINT DETAILS
     // ========================================================

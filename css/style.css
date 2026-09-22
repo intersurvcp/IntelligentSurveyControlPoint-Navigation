@@ -2238,129 +2238,108 @@ h1 {
 
 }
 
-/* =========================================
-   USER MONUMENT PHOTO GALLERY
-   ========================================= */
+//* ========================================================
+    PHOTO GALLERY ARROWS
+    ======================================================== */
 
-.monument-user-gallery {
+ .monument-gallery-viewport {
+     position: relative;
+ }
 
-    width: 100%;
+ .monument-gallery-arrow {
+     position: absolute;
 
-    margin: 15px 0;
+     top: 50%;
+     transform: translateY(-50%);
 
-}
+     width: 42px;
+     height: 42px;
 
-.monument-user-photo-wrapper {
+     border: none;
+     border-radius: 50%;
 
-    position: relative;
+     background: rgba(23, 105, 209, 0.95);
 
-    width: 100%;
+     color: #ffffff;
 
-    overflow: hidden;
+     font-size: 30px;
+     font-family: Arial, sans-serif;
 
-    border-radius: 12px;
+     font-weight: 300;
 
-}
+     display: flex;
+     align-items: center;
+     justify-content: center;
 
-.monument-user-photo-wrapper
-.control-point-photo {
+     cursor: pointer;
 
-    width: 100%;
+     z-index: 10;
 
-    height: 230px;
+     box-shadow:
+         0 3px 10px rgba(0, 0, 0, 0.25);
 
-    object-fit: cover;
+     transition:
+         transform 0.2s ease,
+         background 0.2s ease,
+         box-shadow 0.2s ease;
+ }
 
-    display: block;
 
-    user-select: none;
+ /* PREVIOUS */
 
-    -webkit-user-drag: none;
+ .monument-gallery-prev {
+     left: 12px;
+ }
 
-}
 
-.gallery-arrow {
+ /* NEXT */
 
-    position: absolute;
+ .monument-gallery-next {
+     right: 12px;
+ }
 
-    top: 50%;
 
-    transform: translateY(-50%);
+ /* HOVER */
 
-    width: 38px;
+ .monument-gallery-arrow:hover {
+     background: #1769d1;
 
-    height: 38px;
+     box-shadow:
+         0 5px 14px rgba(0, 0, 0, 0.35);
 
-    border: none;
+     transform:
+         translateY(-50%) scale(1.08);
+ }
 
-    border-radius: 50%;
 
-    background: rgba(0,0,0,.55);
+ /* CLICK */
 
-    color: white;
+ .monument-gallery-arrow:active {
+     transform:
+         translateY(-50%) scale(0.95);
+ }
 
-    font-size: 28px;
 
-    line-height: 35px;
+ /* MOBILE */
 
-    cursor: pointer;
+ @media screen and (max-width: 600px) {
 
-    z-index: 5;
+     .monument-gallery-arrow {
+         width: 38px;
+         height: 38px;
 
-}
+         font-size: 27px;
+     }
 
-.gallery-arrow:hover {
+     .monument-gallery-prev {
+         left: 8px;
+     }
 
-    background: rgba(0,0,0,.75);
+     .monument-gallery-next {
+         right: 8px;
+     }
 
-}
-
-.gallery-prev {
-
-    left: 10px;
-
-}
-
-.gallery-next {
-
-    right: 10px;
-
-}
-
-.gallery-dots {
-
-    display: flex;
-
-    justify-content: center;
-
-    gap: 7px;
-
-    margin-top: 9px;
-
-}
-
-.gallery-dot {
-
-    width: 8px;
-
-    height: 8px;
-
-    border-radius: 50%;
-
-    background: #cbd5e1;
-
-    cursor: pointer;
-
-}
-
-.gallery-dot.active {
-
-    background: #1769d1;
-
-    transform: scale(1.2);
-
-}
-
+ }
 /* =========================================
    CLICKABLE HISTORY CARDS
    ========================================= */
@@ -2900,4 +2879,137 @@ h1 {
 .add-station-button.finish-station-active {
     background: #1764c5;
     color: white;
+}
+
+
+/* ==========================================
+   PHOTO LIGHTBOX
+   ========================================== */
+
+.photo-lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 99999;
+}
+
+.photo-lightbox.active {
+    display: flex;
+}
+
+.photo-lightbox img {
+    max-width: 95vw;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+}
+
+.photo-lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    background: white;
+    color: #111;
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 40px;
+    cursor: pointer;
+    z-index: 100000;
+}
+
+.photo-lightbox-close:hover {
+    transform: scale(1.05);
+}
+
+.control-point-photo {
+    cursor: zoom-in;
+}
+
+/* ========================================================
+   LARGE PHOTO VIEW
+   ======================================================== */
+
+.photo-lightbox {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+
+    background: rgba(0, 0, 0, 0.94);
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 999999 !important;
+
+    padding: 20px;
+
+    box-sizing: border-box;
+}
+
+.photo-lightbox.active {
+    display: flex !important;
+}
+
+.photo-lightbox img {
+    display: block;
+
+    width: auto !important;
+    height: auto !important;
+
+    max-width: 95vw !important;
+    max-height: 90vh !important;
+
+    object-fit: contain;
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 0 40px
+        rgba(0, 0, 0, 0.7);
+
+    cursor: zoom-out;
+}
+
+.photo-lightbox-close {
+    position: absolute !important;
+
+    top: 20px;
+    right: 20px;
+
+    width: 48px;
+    height: 48px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: white;
+    color: #111;
+
+    font-size: 32px;
+    line-height: 48px;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    z-index: 1000000 !important;
+}
+
+.control-point-photo {
+    cursor: zoom-in !important;
 }
