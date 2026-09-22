@@ -2238,7 +2238,7 @@ h1 {
 
 }
 
-//* ========================================================
+/* ========================================================
     PHOTO GALLERY ARROWS
     ======================================================== */
 
@@ -2716,6 +2716,126 @@ h1 {
 
 }
 
+
+/* =========================================
+   EXPORT DROPDOWN
+   ========================================= */
+
+.export-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+
+.export-arrow {
+    margin-left: 6px;
+    font-size: 12px;
+}
+
+
+/* =========================================
+   EXPORT MENU
+   ========================================= */
+
+.export-menu {
+
+    position: absolute;
+
+    top: calc(100% + 8px);
+
+    right: 0;
+
+    width: 190px;
+
+    background: white;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.15);
+
+    border: 1px solid #e2e8f0;
+
+    padding: 6px;
+
+    display: none;
+
+    z-index: 9999;
+}
+
+
+.export-menu.active {
+    display: block;
+}
+
+
+/* =========================================
+   EXPORT MENU BUTTONS
+   ========================================= */
+
+.export-menu button {
+
+    width: 100%;
+
+    border: none;
+
+    background: transparent;
+
+    color: #163d73;
+
+    padding: 11px 12px;
+
+    text-align: left;
+
+    border-radius: 7px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.15s ease;
+
+}
+
+
+.export-menu button:hover {
+
+    background: #eef5ff;
+
+    color: #1769d1;
+
+}
+
+
+.export-menu button:active {
+
+    background: #dceaff;
+
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 700px) {
+
+    .export-wrapper {
+        width: 100%;
+    }
+
+    .export-button {
+        width: 100%;
+    }
+
+    .export-menu {
+        width: 100%;
+        right: 0;
+    }
+
+}
 /* =========================================================
    CLOSE BUTTON - TRAVERSE STATIONS
    ========================================================= */
