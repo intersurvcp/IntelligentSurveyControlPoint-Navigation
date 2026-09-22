@@ -42,11 +42,28 @@
 </button>
 
 <!-- Control Point Selector -->
-<div class="control-selector">
-    <label for="controlPointSelect">Select Control Point</label>
+<button
+        id="searchControlPointButton"
+        class="search-control-button"
+        type="button"
+        title="Search Control Point"
+        aria-label="Search Control Point"
+>
+    🔍
+</button>
+
+<div
+        id="controlPointSearchPanel"
+        class="control-point-search-panel"
+>
+    <label for="controlPointSelect">
+        Search Control Point
+    </label>
 
     <select id="controlPointSelect">
-        <option value="">-- Select a Control Point --</option>
+        <option value="">
+            -- Select a Control Point --
+        </option>
     </select>
 </div>
 

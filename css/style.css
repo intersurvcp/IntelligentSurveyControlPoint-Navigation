@@ -2792,3 +2792,112 @@ h1 {
 .close-station-list:active {
     transform: scale(0.95);
 }
+
+/* =========================================================
+   CONTROL POINT SEARCH BUTTON
+   ========================================================= */
+
+.search-control-button {
+    position: absolute;
+    top: 130px;
+    left: 30px;
+
+    width: 50px;
+    height: 50px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: white;
+    color: #1764c5;
+
+    font-size: 24px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,.22);
+
+    z-index: 1100;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.search-control-button:hover {
+    transform: scale(1.05);
+}
+
+
+/* =========================================================
+   SEARCH PANEL
+   ========================================================= */
+
+.control-point-search-panel {
+    position: absolute;
+
+    top: 190px;
+    left: 30px;
+
+    width: 280px;
+
+    padding: 15px;
+
+    background: white;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,.22);
+
+    z-index: 1100;
+
+    display: none;
+}
+
+
+.control-point-search-panel.active {
+    display: block;
+}
+
+
+.control-point-search-panel label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    color: #163d73;
+}
+
+
+.control-point-search-panel select {
+    width: 100%;
+
+    height: 44px;
+
+    padding: 0 10px;
+
+    border: 2px solid #1e73d8;
+
+    border-radius: 8px;
+
+    background: white;
+
+    color: #163d73;
+
+    font-size: 15px;
+}
+/* =========================================================
+   FINISH STATION BUTTON
+   ========================================================= */
+
+.add-station-button.finish-station-active {
+    background: #1764c5;
+    color: white;
+}

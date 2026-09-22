@@ -352,9 +352,11 @@ async function initMap() {
 
     let selectedPoint = null;
 
-    let traverseMode = false;
+   let traverseMode = false;
 
-    let stationPoints = [];
+   let isAddingStations = false;
+
+   let stationPoints = [];
 
     let traverseLines = [];
 
@@ -374,6 +376,40 @@ async function initMap() {
             "controlPointSelect"
         );
 
+const searchControlPointButton =
+    document.getElementById(
+        "searchControlPointButton"
+    );
+
+const controlPointSearchPanel =
+    document.getElementById(
+        "controlPointSearchPanel"
+    );
+
+
+if (
+    searchControlPointButton &&
+    controlPointSearchPanel
+) {
+
+    searchControlPointButton.addEventListener(
+        "click",
+        function () {
+
+            const isOpen =
+                controlPointSearchPanel.classList.contains(
+                    "active"
+                );
+
+            controlPointSearchPanel.classList.toggle(
+                "active",
+                !isOpen
+            );
+
+        }
+    );
+
+}
 
     if (controlPointSelect) {
 
@@ -447,42 +483,121 @@ async function initMap() {
         );
 
 
-    // ========================================================
-    // ADD STATION BUTTON
-    // ========================================================
+   // ========================================================
+   // ADD STATION / FINISH STATION
+   // ========================================================
 
-    let addStationButton =
-        document.getElementById(
-            "addStationButton"
-        );
+   addStationButton.addEventListener(
+       "click",
+       function () {
 
+           // ================================================
+           // START ADDING STATIONS
+           // ================================================
 
-    if (!addStationButton) {
+           if (!isAddingStations) {
 
-        addStationButton =
-            document.createElement(
-                "button"
-            );
+               if (!traverseMode) {
 
+                   alert(
+                       "Please turn TRAVERSE ON first."
+                   );
 
-        addStationButton.id =
-            "addStationButton";
+                   return;
 
-
-        addStationButton.className =
-            "add-station-button";
-
-
-        addStationButton.textContent =
-            "+ ADD STATION";
+               }
 
 
-        document.body.appendChild(
-            addStationButton
-        );
+               isAddingStations = true;
 
-    }
 
+               addStationButton.textContent =
+                   "FINISH STATION";
+
+
+               addStationButton.classList.add(
+                   "finish-station-active"
+               );
+
+
+               if (traverseStatus) {
+
+                   traverseStatus.textContent =
+                       "Tap control points on the map to add stations.";
+
+               }
+
+
+               return;
+
+           }
+
+
+           // ================================================
+           // FINISH STATIONS
+           // ================================================
+
+           isAddingStations = false;
+
+
+           addStationButton.textContent =
+               "+ ADD STATION";
+
+
+           addStationButton.classList.remove(
+               "finish-station-active"
+           );
+
+
+           if (traverseStatus) {
+
+               if (
+                   stationPoints.length >= 2
+               ) {
+
+                   traverseStatus.textContent =
+                       stationPoints.length +
+                       " stations selected. Traverse finished.";
+
+               } else {
+
+                   traverseStatus.textContent =
+                       stationPoints.length +
+                       " station selected.";
+
+               }
+
+           }
+
+
+           // ================================================
+           // CLOSE STATION LIST
+           // ================================================
+
+           stationList.style.display =
+               "none";
+
+
+           // ================================================
+           // FINISH TRAVERSE
+           // ================================================
+
+           traverseMode = false;
+
+
+           if (traverseButton) {
+
+               traverseButton.textContent =
+                   "TRAVERSE";
+
+           }
+
+
+           addStationButton.style.display =
+               "none";
+
+       }
+   );
 
     // ========================================================
     // STATION LIST
@@ -3134,9 +3249,7 @@ function setupGalleryLightbox(pointInfo) {
     // TRAVERSE ON / OFF
     // ========================================================
 
-    if (
-        traverseButton
-    ) {
+    if (traverseButton) {
 
         traverseButton.addEventListener(
             "click",
@@ -3146,9 +3259,15 @@ function setupGalleryLightbox(pointInfo) {
                     !traverseMode;
 
 
-                if (
-                    traverseMode
-                ) {
+                if (traverseMode) {
+
+                    // ========================================
+                    // TRAVERSE ON
+                    // ========================================
+
+                    isAddingStations =
+                        false;
+
 
                     traverseButton.textContent =
                         "TRAVERSE ON";
@@ -3158,13 +3277,20 @@ function setupGalleryLightbox(pointInfo) {
                         "block";
 
 
+                    addStationButton.textContent =
+                        "+ ADD STATION";
+
+
+                    addStationButton.classList.remove(
+                        "finish-station-active"
+                    );
+
+
                     stationList.style.display =
                         "block";
 
 
-                    if (
-                        traversePanel
-                    ) {
+                    if (traversePanel) {
 
                         traversePanel.style.display =
                             "block";
@@ -3172,19 +3298,34 @@ function setupGalleryLightbox(pointInfo) {
                     }
 
 
-                    if (
-                        traverseStatus
-                    ) {
+                    if (traverseStatus) {
 
                         traverseStatus.textContent =
-                            "Select a control point, then press ADD STATION.";
+                            "Press ADD STATION to start selecting stations.";
 
                     }
 
                 } else {
 
+                    // ========================================
+                    // TRAVERSE OFF
+                    // ========================================
+
+                    isAddingStations =
+                        false;
+
+
                     traverseButton.textContent =
                         "TRAVERSE";
+
+
+                    addStationButton.textContent =
+                        "+ ADD STATION";
+
+
+                    addStationButton.classList.remove(
+                        "finish-station-active"
+                    );
 
 
                     addStationButton.style.display =
@@ -3195,9 +3336,7 @@ function setupGalleryLightbox(pointInfo) {
                         "none";
 
 
-                    if (
-                        traversePanel
-                    ) {
+                    if (traversePanel) {
 
                         traversePanel.style.display =
                             "none";
@@ -3398,9 +3537,17 @@ function setupGalleryLightbox(pointInfo) {
                 "click",
                 function () {
 
+                    // =============================================
+                    // SELECT THIS CONTROL POINT
+                    // =============================================
+
                     selectedPoint =
                         point;
 
+
+                    // =============================================
+                    // SHOW DETAILS BUTTON
+                    // =============================================
 
                     const detailsButton =
                         document.getElementById(
@@ -3408,9 +3555,7 @@ function setupGalleryLightbox(pointInfo) {
                         );
 
 
-                    if (
-                        detailsButton
-                    ) {
+                    if (detailsButton) {
 
                         detailsButton.style.display =
                             "block";
@@ -3418,9 +3563,80 @@ function setupGalleryLightbox(pointInfo) {
                     }
 
 
+                    // =============================================
+                    // ADD STATION MODE
+                    // =============================================
+
                     if (
-                        traverseMode
+                        traverseMode &&
+                        isAddingStations
                     ) {
+
+                        // -----------------------------------------
+                        // PREVENT DUPLICATE STATION
+                        // -----------------------------------------
+
+                        if (
+                            stationPoints.includes(
+                                point
+                            )
+                        ) {
+
+                            alert(
+                                point.name +
+                                " is already in the traverse."
+                            );
+
+                            return;
+
+                        }
+
+
+                        // -----------------------------------------
+                        // ADD THE CLICKED CP
+                        // -----------------------------------------
+
+                        stationPoints.push(
+                            point
+                        );
+
+
+                        // -----------------------------------------
+                        // UPDATE STATION LIST
+                        // -----------------------------------------
+
+                        updateStationList();
+
+
+                        // -----------------------------------------
+                        // UPDATE TRAVERSE
+                        // -----------------------------------------
+
+                        updateTraverse();
+
+
+                        // -----------------------------------------
+                        // KEEP STATION MODE ACTIVE
+                        // -----------------------------------------
+
+                        if (traverseStatus) {
+
+                            traverseStatus.textContent =
+                                stationPoints.length +
+                                " station" +
+                                (
+                                    stationPoints.length === 1
+                                        ? ""
+                                        : "s"
+                                ) +
+                                " selected. Tap another control point.";
+
+                        }
+
+
+                        // -----------------------------------------
+                        // MOVE MAP TO SELECTED CP
+                        // -----------------------------------------
 
                         map.panTo({
 
@@ -3437,20 +3653,42 @@ function setupGalleryLightbox(pointInfo) {
                             19
                         );
 
+
+                        return;
+
                     }
 
 
+                    // =============================================
+                    // NORMAL MARKER SELECTION
+                    // =============================================
+
+                    map.panTo({
+
+                        lat:
+                            point.lat,
+
+                        lng:
+                            point.lng
+
+                    });
+
+
+                    map.setZoom(
+                        19
+                    );
+
+
+                    // =============================================
+                    // OPEN DETAILS AUTOMATICALLY
+                    // =============================================
+
                     if (
-                        !traverseMode
+                        !traverseMode &&
+                        detailsButton
                     ) {
 
-                        if (
-                            detailsButton
-                        ) {
-
-                            detailsButton.click();
-
-                        }
+                        detailsButton.click();
 
                     }
 
@@ -3578,200 +3816,31 @@ function setupGalleryLightbox(pointInfo) {
         detailsButton
     ) {
 
-        detailsButton.addEventListener(
-            "click",
-            function () {
+       detailsButton.addEventListener("click", function () {
 
-                if (
-                    !selectedPoint
-                ) {
+           // =========================================
+           // NO CONTROL POINT SELECTED
+           // =========================================
 
-                    alert(
-                        "Please select a control point first."
-                    );
+           if (!selectedPoint) {
 
-                    return;
+               alert(
+                   "Please select a control point on the map first."
+               );
 
-                }
+               return;
+           }
 
 
-                const pointInfo =
-                    document.getElementById(
-                        "pointInfo"
-                    );
+           // =========================================
+           // SHOW THE DETAILS OF THE SELECTED MARKER
+           // =========================================
 
+           showControlPointDetails(
+               selectedPoint
+           );
 
-                if (
-                    !pointInfo
-                ) {
-
-                    return;
-
-                }
-
-
-                // =================================================
-                // CREATE NEW PHOTO GALLERY
-                // =================================================
-
-                const photoHTML =
-                    createPhotoGallery(
-                        selectedPoint
-                    );
-
-
-                // =================================================
-                // DETAILS CONTENT
-                // =================================================
-
-                pointInfo.innerHTML = `
-
-                    <button
-                        class="close-details"
-                        onclick="closeDetails()"
-                    >
-
-                        ✕
-
-                    </button>
-
-
-                    <h2>
-                        ${escapeHTML(
-                            selectedPoint.name
-                        )}
-                    </h2>
-
-
-                    ${photoHTML}
-
-
-                    <p>
-
-                        <strong>
-                            Northing:
-                        </strong>
-
-                        <br>
-
-                        ${selectedPoint.northing}
-
-                    </p>
-
-
-                    <p>
-
-                        <strong>
-                            Easting:
-                        </strong>
-
-                        <br>
-
-                        ${selectedPoint.easting}
-
-                    </p>
-
-
-                    <p>
-
-                        <strong>
-                            Orthometric Height:
-                        </strong>
-
-                        <br>
-
-                        ${selectedPoint.height}
-                        m
-
-                    </p>
-
-
-                    <p>
-
-                        <strong>
-                            Monument Status:
-                        </strong>
-
-                        <br>
-
-                        ${escapeHTML(
-                            selectedPoint.monumentStatus
-                        )}
-
-                    </p>
-
-
-                    ${
-                        selectedPoint.description
-                            ?
-
-                            `
-
-                            <p>
-
-                                <strong>
-                                    Description:
-                                </strong>
-
-                                <br>
-
-                                ${escapeHTML(
-                                    selectedPoint.description
-                                )}
-
-                            </p>
-
-                            `
-
-                            :
-
-                            ""
-
-                    }
-
-
-                    <button
-                        class="navigate-button"
-                        onclick="
-                            navigateToPoint(
-                                ${selectedPoint.lat},
-                                ${selectedPoint.lng}
-                            )
-                        "
-                    >
-
-                        NAVIGATE
-
-                    </button>
-
-                `;
-
-
-                pointInfo.style.display =
-                    "block";
-
-
-                // =================================================
-                // ACTIVATE GALLERY
-                // =================================================
-
-                setupGalleryDots(
-                    pointInfo
-                );
-
-
-                setupGallerySwipe(
-                    pointInfo
-                );
-
-          setupGalleryLightbox(
-              pointInfo
-          );
-
-
-            }
-        );
-
+       });
     }
 
 
@@ -3906,7 +3975,7 @@ function setupGalleryLightbox(pointInfo) {
                               map:
                                   map,
 
-                              title:
+                       title:
                                   "My Location",
 
                               icon: {
